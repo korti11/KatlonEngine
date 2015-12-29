@@ -1,14 +1,26 @@
-group 'at.korti'
-version '1.0.0'
-
 apply plugin: 'java'
 
-sourceCompatibility = 1.5
+ext.configFile = file 'build.properties'
+
+configFile.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
+
+group 'at.korti'
+version "${config.version}.${System.getenv("BUILD_NUMBER") ?: 0}-${config.release_type}"
+
+sourceCompatibility = config.java_version
+targetCompatibility = config.java_version
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    compile "org.lwjgl:lwjgl:${config.lwjgl_version}"
+    compile "org.lwjgl:lwjgl-platform:${config.lwjgl_version}:natives-windows"
+
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
