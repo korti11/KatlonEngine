@@ -82,6 +82,14 @@ public class DisplayManager {
         glfwShowWindow(window);
     }
 
+    public void swapColorBuffers(){
+        glfwSwapBuffers(window);
+    }
+
+    public void pollEvents() {
+        glfwPollEvents();
+    }
+
     public boolean isCloseKeyPressed(){
         return EngineSettings.keyCloseActive && glfwWindowShouldClose(window) == GLFW_FALSE;
     }
