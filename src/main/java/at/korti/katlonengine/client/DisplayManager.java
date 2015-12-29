@@ -1,12 +1,15 @@
 package at.korti.katlonengine.client;
 
+import at.korti.katlonengine.KatlonEngine;
 import at.korti.katlonengine.config.EngineSettings;
+import at.korti.katlonengine.event.KeyInputEvent;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
+import static org.lwjgl.system.MemoryUtil.memIntBuffer;
 
 /**
  * Created by Korti on 29.12.2015.
@@ -52,6 +55,9 @@ public class DisplayManager {
             throw new RuntimeException("Failed to create the GLFW window");
         }
 
+        //Register Events
+        KatlonEngine.EVENT_BUS.registerEvent(KeyInputEvent.class);
+
         //Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
             @Override
@@ -59,6 +65,7 @@ public class DisplayManager {
                 if (EngineSettings.keyCloseActive && key == EngineSettings.CLOSE_KEY && action == GLFW_RELEASE) {
                     glfwSetWindowShouldClose(window, GLFW_TRUE);
                 }
+                KatlonEngine.EVENT_BUS.fireEvent(new KeyInputEvent(window, key, scancode, action, mods));
             }
         });
 

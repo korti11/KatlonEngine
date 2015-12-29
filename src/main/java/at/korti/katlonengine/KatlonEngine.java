@@ -1,6 +1,7 @@
 package at.korti.katlonengine;
 
 import at.korti.katlonengine.client.DisplayManager;
+import at.korti.katlonengine.event.handler.EventBus;
 
 /**
  * Created by Korti on 29.12.2015.
@@ -8,6 +9,7 @@ import at.korti.katlonengine.client.DisplayManager;
 public class KatlonEngine {
 
     private static KatlonEngine instance;
+    public static EventBus EVENT_BUS = new EventBus();
 
     public DisplayManager displayManager;
 
