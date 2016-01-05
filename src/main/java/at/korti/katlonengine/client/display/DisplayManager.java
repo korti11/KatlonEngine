@@ -3,6 +3,7 @@ package at.korti.katlonengine.client.display;
 import at.korti.katlonengine.KatlonEngine;
 import at.korti.katlonengine.config.EngineSettings;
 import at.korti.katlonengine.event.KeyInputEvent;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -19,6 +20,8 @@ public class DisplayManager {
 
     private GLFWErrorCallback errorCallback;
     private GLFWKeyCallback keyCallback;
+
+    private Logger logger = KatlonEngine.logger;
 
     private long window;
 
@@ -40,6 +43,7 @@ public class DisplayManager {
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
         if(glfwInit() != GLFW_TRUE) {
+            logger.error("Unable to initialize GLFW");
             throw new IllegalStateException("Unable to initialize GLFW");
         }
 
@@ -51,6 +55,7 @@ public class DisplayManager {
         // Create the window
         window = glfwCreateWindow(EngineSettings.width, EngineSettings.width, EngineSettings.displayTitle, NULL, NULL);
         if (window == NULL) {
+            logger.error("Failed to create the GLFW window");
             throw new RuntimeException("Failed to create the GLFW window");
         }
 
