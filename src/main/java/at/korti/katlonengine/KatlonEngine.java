@@ -1,6 +1,6 @@
 package at.korti.katlonengine;
 
-import at.korti.katlonengine.client.DisplayManager;
+import at.korti.katlonengine.client.display.DisplayManager;
 import at.korti.katlonengine.event.handler.EventBus;
 
 /**

@@ -1,4 +1,4 @@
-package at.korti.katlonengine.client;
+package at.korti.katlonengine.client.display;
 
 import at.korti.katlonengine.KatlonEngine;
 import at.korti.katlonengine.config.EngineSettings;
@@ -9,7 +9,6 @@ import org.lwjgl.glfw.GLFWVidMode;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
-import static org.lwjgl.system.MemoryUtil.memIntBuffer;
 
 /**
  * Created by Korti on 29.12.2015.
@@ -98,7 +97,7 @@ public class DisplayManager {
     }
 
     public boolean isCloseKeyPressed(){
-        return EngineSettings.keyCloseActive && glfwWindowShouldClose(window) == GLFW_FALSE;
+        return glfwWindowShouldClose(window) == GLFW_FALSE;
     }
 
     public void close(){

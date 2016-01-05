@@ -19,10 +19,10 @@ public class EngineSettings {
     public static String displayTitle = "Katlon Engine";
     public static boolean resizeable = true;
     public static boolean vSync = false;
-    public static boolean keyCloseActive = true;
+    public static boolean keyCloseActive = false;
 
     //LWJGL
-    public static String lwjglVersion = Version.getVersion();
+    public static final String lwjglVersion = Version.getVersion();
 
     //Keys
     public static int CLOSE_KEY = GLFW_KEY_ESCAPE;
