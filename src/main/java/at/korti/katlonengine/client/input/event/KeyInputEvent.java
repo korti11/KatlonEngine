@@ -1,4 +1,6 @@
-package at.korti.katlonengine.event;
+package at.korti.katlonengine.client.input.event;
+
+import at.korti.katlonengine.event.Event;
 
 /**
  * Created by Korti on 29.12.2015.

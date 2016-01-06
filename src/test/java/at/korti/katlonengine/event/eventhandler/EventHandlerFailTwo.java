@@ -1,6 +1,6 @@
 package at.korti.katlonengine.event.eventhandler;
 
-import at.korti.katlonengine.event.KeyInputEvent;
+import at.korti.katlonengine.client.input.event.KeyInputEvent;
 import at.korti.katlonengine.event.handler.SubscribeEvent;
 
 /**

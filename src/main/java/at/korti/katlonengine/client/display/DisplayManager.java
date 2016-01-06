@@ -1,11 +1,10 @@
 package at.korti.katlonengine.client.display;
 
 import at.korti.katlonengine.KatlonEngine;
+import at.korti.katlonengine.client.input.InputHandler;
 import at.korti.katlonengine.config.EngineSettings;
-import at.korti.katlonengine.event.KeyInputEvent;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -19,9 +18,9 @@ public class DisplayManager {
     private static DisplayManager instance;
 
     private GLFWErrorCallback errorCallback;
-    private GLFWKeyCallback keyCallback;
 
     private Logger logger = KatlonEngine.logger;
+    private InputHandler inputHandler;
 
     private long window;
 
@@ -58,20 +57,8 @@ public class DisplayManager {
             logger.error("Failed to create the GLFW window");
             throw new RuntimeException("Failed to create the GLFW window");
         }
-
-        //Register Events
-        KatlonEngine.EVENT_BUS.registerEvent(KeyInputEvent.class);
-
-        //Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
-            @Override
-            public void invoke(long window, int key, int scancode, int action, int mods) {
-                if (EngineSettings.keyCloseActive && key == EngineSettings.CLOSE_KEY && action == GLFW_RELEASE) {
-                    glfwSetWindowShouldClose(window, GLFW_TRUE);
-                }
-                KatlonEngine.EVENT_BUS.fireEvent(new KeyInputEvent(window, key, scancode, action, mods));
-            }
-        });
+        inputHandler = new InputHandler(window);
+        inputHandler.init();
 
         // Get the resolution of the primary monitor
         GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -101,13 +88,13 @@ public class DisplayManager {
         glfwPollEvents();
     }
 
-    public boolean isCloseKeyPressed(){
+    public boolean shouldWindowClose(){
         return glfwWindowShouldClose(window) == GLFW_FALSE;
     }
 
     public void close(){
         glfwDestroyWindow(window);
-        keyCallback.release();
+        inputHandler.release();
     }
 
     public void terminate(){

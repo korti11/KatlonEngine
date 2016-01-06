@@ -1,11 +1,10 @@
 package at.korti.katlonengine.event;
 
+import at.korti.katlonengine.client.input.event.KeyInputEvent;
 import at.korti.katlonengine.event.eventhandler.EventHandlerFailOne;
 import at.korti.katlonengine.event.eventhandler.EventHandlerFailTwo;
 import at.korti.katlonengine.event.eventhandler.EventHandlerOkOne;
 import at.korti.katlonengine.event.handler.EventBus;
-import at.korti.katlonengine.event.handler.SubscribeEvent;
-import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
