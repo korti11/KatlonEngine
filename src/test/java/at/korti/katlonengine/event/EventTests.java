@@ -9,6 +9,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import static org.junit.Assert.fail;
+
 /**
  * Created by Korti on 29.12.2015.
  */
@@ -30,7 +32,9 @@ public class EventTests {
             eventBus.register(new EventHandlerOkOne());
         } catch (Exception e) {
             System.err.println(e);
+            return;
         }
+        fail();
     }
 
     @Test
@@ -41,7 +45,9 @@ public class EventTests {
             eventBus.register(new EventHandlerFailOne());
         } catch (Exception e) {
             System.err.println(e);
+            return;
         }
+        fail();
     }
 
     @Test
@@ -52,7 +58,9 @@ public class EventTests {
             eventBus.register(new EventHandlerFailTwo());
         } catch (Exception e) {
             System.err.println(e);
+            return;
         }
+        fail();
     }
 
 }
