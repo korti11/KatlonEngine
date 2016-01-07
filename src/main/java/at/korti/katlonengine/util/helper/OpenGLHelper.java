@@ -1,4 +1,4 @@
-package at.korti.katlonengine.helper;
+package at.korti.katlonengine.util.helper;
 
 import static org.lwjgl.opengl.GL11.*;
 
