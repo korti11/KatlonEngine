@@ -25,42 +25,24 @@ public class EventTests {
         eventBus.fireEvent(new KeyInputEvent(0, 0, 0, 0, 0));
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void t100FireKeyInputEventNotRegister_fail(){
         EventBus eventBus = new EventBus();
-        try {
-            eventBus.register(new EventHandlerOkOne());
-        } catch (Exception e) {
-            System.err.println(e);
-            return;
-        }
-        fail();
+        eventBus.register(new EventHandlerOkOne());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void t101RegisterKeyInputHandler1_fail() {
         EventBus eventBus = new EventBus();
         eventBus.registerEvent(KeyInputEvent.class);
-        try {
-            eventBus.register(new EventHandlerFailOne());
-        } catch (Exception e) {
-            System.err.println(e);
-            return;
-        }
-        fail();
+        eventBus.register(new EventHandlerFailOne());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void t102RegisterKeyInputHandler2_fail() {
         EventBus eventBus = new EventBus();
         eventBus.registerEvent(KeyInputEvent.class);
-        try {
-            eventBus.register(new EventHandlerFailTwo());
-        } catch (Exception e) {
-            System.err.println(e);
-            return;
-        }
-        fail();
+        eventBus.register(new EventHandlerFailTwo());
     }
 
 }
