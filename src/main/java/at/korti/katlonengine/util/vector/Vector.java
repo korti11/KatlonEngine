@@ -17,7 +17,7 @@ public abstract class Vector {
 
     public abstract float lengthSquare();
 
-    public abstract Vector load(FloatBuffer buffer);
+    public abstract Vector readFromBuffer(FloatBuffer buffer);
 
     public abstract Vector negate();
 
@@ -31,7 +31,7 @@ public abstract class Vector {
         }
     }
 
-    public abstract Vector store(FloatBuffer buffer);
+    public abstract Vector writeToBuffer(FloatBuffer buffer);
 
     public abstract Vector scale(float scale);
 

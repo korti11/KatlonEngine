@@ -1,7 +1,3 @@
-/*
-    Created from the Vector3f class of the LWJGL2.
-    https://github.com/LWJGL/lwjgl/blob/master/src/java/org/lwjgl/util/vector/Vector3f.java
- */
 package at.korti.katlonengine.util.vector;
 
 import java.nio.FloatBuffer;
@@ -39,34 +35,34 @@ public class Vector3f extends Vector {
         return this;
     }
 
-    public static Vector3f add(Vector3f left, Vector3f right, Vector3f dest) {
-        if (dest == null) {
-            return new Vector3f(left.x + right.x, left.y + right.y, left.z + right.z);
+    public static Vector3f add(Vector3f vecLeft, Vector3f vecRight, Vector3f vecDest) {
+        if (vecDest == null) {
+            return new Vector3f(vecLeft.x + vecRight.x, vecLeft.y + vecRight.y, vecLeft.z + vecRight.z);
         } else {
-            dest.set(left.x + right.x, left.y + right.y, left.z + right.z);
-            return dest;
+            vecDest.set(vecLeft.x + vecRight.x, vecLeft.y + vecRight.y, vecLeft.z + vecRight.z);
+            return vecDest;
         }
     }
 
-    public static Vector3f sub(Vector3f left, Vector3f right, Vector3f dest) {
-        if (dest == null) {
-            return new Vector3f(left.x - right.x, left.y - right.y, left.z - right.z);
+    public static Vector3f sub(Vector3f vecLeft, Vector3f vecRight, Vector3f vecDest) {
+        if (vecDest == null) {
+            return new Vector3f(vecLeft.x - vecRight.x, vecLeft.y - vecRight.y, vecLeft.z - vecRight.z);
         } else {
-            dest.set(left.x - right.x, left.y - right.y, left.z - right.z);
-            return dest;
+            vecDest.set(vecLeft.x - vecRight.x, vecLeft.y - vecRight.y, vecLeft.z - vecRight.z);
+            return vecDest;
         }
     }
 
-    public static Vector3f cross(Vector3f left, Vector3f right, Vector3f dest) {
-        if (dest == null) {
-            dest = new Vector3f();
+    public static Vector3f cross(Vector3f vecLeft, Vector3f vecRight, Vector3f vecDest) {
+        if (vecDest == null) {
+            vecDest = new Vector3f();
         }
-        dest.set(
-                left.y * right.z - left.z * right.y,
-                right.y * left.z - right.z * left.x,
-                left.x * right.y - left.y * right.x
+        vecDest.set(
+                vecLeft.y * vecRight.z - vecLeft.z * vecRight.y,
+                vecRight.y * vecLeft.z - vecRight.z * vecLeft.x,
+                vecLeft.x * vecRight.y - vecLeft.y * vecRight.x
         );
-        return dest;
+        return vecDest;
     }
 
     @Override
@@ -77,28 +73,28 @@ public class Vector3f extends Vector {
         return this;
     }
 
-    public Vector3f negate(Vector3f dest) {
-        if (dest == null) {
-            dest = new Vector3f();
+    public Vector3f negate(Vector3f vecDest) {
+        if (vecDest == null) {
+            vecDest = new Vector3f();
         }
-        dest.x = -x;
-        dest.y = -y;
-        dest.z = -z;
-        return dest;
+        vecDest.x = -x;
+        vecDest.y = -y;
+        vecDest.z = -z;
+        return vecDest;
     }
 
-    public Vector3f normalise(Vector3f dest) {
+    public Vector3f normalise(Vector3f vecDest) {
         float l = length();
-        if (dest == null) {
-            dest = new Vector3f(x / l, y / l, z / l);
+        if (vecDest == null) {
+            vecDest = new Vector3f(x / l, y / l, z / l);
         } else {
-            dest.set(x / l, y / l, z / l);
+            vecDest.set(x / l, y / l, z / l);
         }
-        return dest;
+        return vecDest;
     }
 
-    public static float dot(Vector3f left, Vector3f right) {
-        return left.x * right.x + left.y * right.y + left.z * right.z;
+    public static float dot(Vector3f vecLeft, Vector3f vecRight) {
+        return vecLeft.x * vecRight.x + vecLeft.y * vecRight.y + vecLeft.z * vecRight.z;
     }
 
     public static float angel(Vector3f a, Vector3f b) {
@@ -112,7 +108,7 @@ public class Vector3f extends Vector {
     }
 
     @Override
-    public Vector load(FloatBuffer buffer) {
+    public Vector readFromBuffer(FloatBuffer buffer) {
         x = buffer.get();
         y = buffer.get();
         z = buffer.get();
@@ -120,7 +116,7 @@ public class Vector3f extends Vector {
     }
 
     @Override
-    public Vector store(FloatBuffer buffer) {
+    public Vector writeToBuffer(FloatBuffer buffer) {
         buffer.put(x);
         buffer.put(y);
         buffer.put(z);
