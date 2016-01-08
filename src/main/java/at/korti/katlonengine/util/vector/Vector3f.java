@@ -131,6 +131,14 @@ public class Vector3f extends Vector {
         return this;
     }
 
+    /**
+     * Create a float array with the size 3. It contains the three coordinates, in the order x, y, z.
+     * @return
+     */
+    public float[] toFloatArray() {
+        return new float[]{x, y, z};
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

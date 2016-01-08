@@ -20,4 +20,12 @@ public class Face {
         this.normalIndices[1] = normalIndices[1];
         this.normalIndices[2] = normalIndices[2];
     }
+
+    public int[] getVertexIndices() {
+        return vertexIndices;
+    }
+
+    public int[] getNormalIndices() {
+        return normalIndices;
+    }
 }
