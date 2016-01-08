@@ -1,6 +1,7 @@
 package at.korti.katlonengine;
 
 import at.korti.katlonengine.client.display.DisplayManager;
+import at.korti.katlonengine.client.render.MasterRenderer;
 import at.korti.katlonengine.event.handler.EventBus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,9 +16,11 @@ public class KatlonEngine {
     public static Logger logger = LogManager.getLogger("Katlon");
 
     public DisplayManager displayManager;
+    public MasterRenderer masterRenderer;
 
     private KatlonEngine(){
         displayManager = DisplayManager.instance();
+        masterRenderer = MasterRenderer.instance();
     }
 
     public static KatlonEngine instance() {
@@ -32,8 +35,13 @@ public class KatlonEngine {
         logger.info("Katlon Engine is initialized!");
     }
 
+    public void render() {
+        masterRenderer.renderAll();
+    }
+
     public void close(){
         displayManager.close();
+        masterRenderer.cleanUp();
         logger.info("Katlon Engine has been closed!");
     }
 
