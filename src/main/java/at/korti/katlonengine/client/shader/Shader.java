@@ -2,6 +2,9 @@ package at.korti.katlonengine.client.shader;
 
 import at.korti.katlonengine.KatlonEngine;
 import at.korti.katlonengine.util.helper.ResourceHelper;
+import at.korti.katlonengine.util.matrix.Matrix4f;
+import at.korti.katlonengine.util.vector.Vector;
+import at.korti.katlonengine.util.vector.Vector3f;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.BufferUtils;
 
@@ -90,5 +93,33 @@ public abstract class Shader {
     protected int getUniformLocation(String uniformName) {
         return glGetUniformLocation(programID, uniformName);
     }
+
+    //region Value load
+    protected void loadFloat(int location, float value) {
+        glUniform1f(location, value);
+    }
+
+    protected void loadInt(int location, int value) {
+        glUniform1i(location, value);
+    }
+
+    protected void loadBoolean(int location, boolean value) {
+        float help = value ? 1 : 0;
+        loadFloat(location, help);
+    }
+
+    protected void loadVector(int location, Vector vector) {
+        if (vector instanceof Vector3f) {
+            Vector3f help = (Vector3f) vector;
+            glUniform3f(location, help.x, help.y, help.z);
+        }
+    }
+
+    protected void loadMatrix4f(int location, Matrix4f matrix) {
+        matrix.store(matrixBuffer);
+        matrixBuffer.flip();
+        glUniformMatrix4fv(location, false, matrixBuffer);
+    }
+    //endregion
 
 }
