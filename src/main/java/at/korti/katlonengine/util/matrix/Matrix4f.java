@@ -224,6 +224,8 @@ public class Matrix4f extends Matrix {
         dest.mat31 = -src.mat31;
         dest.mat32 = -src.mat32;
         dest.mat33 = -src.mat33;
+
+        return dest;
     }
 
     @Override
