@@ -3,6 +3,7 @@ package at.korti.katlonengine;
 import at.korti.katlonengine.client.display.DisplayManager;
 import at.korti.katlonengine.client.render.MasterRenderer;
 import at.korti.katlonengine.event.handler.EventBus;
+import at.korti.katlonengine.util.helper.OpenGLHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +33,7 @@ public class KatlonEngine {
 
     public void init(){
         displayManager.init();
+        OpenGLHelper.initOpenGL();
         logger.info("Katlon Engine is initialized!");
     }
 

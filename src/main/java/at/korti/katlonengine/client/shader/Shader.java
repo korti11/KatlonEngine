@@ -46,7 +46,7 @@ public abstract class Shader {
             BufferedReader reader = ResourceHelper.getBufferedReaderForFile(file);
             String line;
             while ((line = reader.readLine()) != null) {
-                shaderSource.append(line).append("/n");
+                shaderSource.append(line).append("\n");
             }
         } catch (IOException e) {
             logger.error(e.getMessage(), e);

@@ -14,7 +14,7 @@ public class MasterShader extends Shader {
 
     @Override
     protected void bindAttributes() {
-
+        bindAttribute(0, "position");
     }
 
     @Override

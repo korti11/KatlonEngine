@@ -1,6 +1,7 @@
 package at.korti.katlonengine.client.render;
 
 import at.korti.katlonengine.client.model.VBOModel;
+import at.korti.katlonengine.client.shader.MasterShader;
 import at.korti.katlonengine.util.helper.OpenGLHelper;
 
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ public class MasterRenderer {
     private static MasterRenderer instance;
 
     private List<VBOModel> models;
+    private MasterShader shader;
 
     private MasterRenderer() {
         models = new LinkedList<>();
@@ -33,13 +35,20 @@ public class MasterRenderer {
         instance().models.add(model);
     }
 
+    public void init() {
+        shader = new MasterShader();
+    }
+
     public void renderAll() {
         for (VBOModel model : models) {
-            loadModel(model);
-            glLoadIdentity();
+            shader.start();
             OpenGLHelper.clearFramebuffer();
-            glDrawArrays(GL_TRIANGLES, 0, model.getModel().getFaces().size() * 3);
+            loadModel(model);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, model.getModel().getFaces().size() * 3);
+            glDisableClientState(GL_VERTEX_ARRAY);
+            glDisableClientState(GL_NORMAL_ARRAY);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
+            shader.stop();
         }
     }
 
@@ -54,6 +63,7 @@ public class MasterRenderer {
 
     public void cleanUp() {
         models.forEach(at.korti.katlonengine.client.model.VBOModel::cleanUp);
+        shader.cleanUp();
     }
 
 }

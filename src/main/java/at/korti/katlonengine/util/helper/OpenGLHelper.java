@@ -1,5 +1,8 @@
 package at.korti.katlonengine.util.helper;
 
+import at.korti.katlonengine.config.EngineSettings;
+import org.lwjgl.opengl.GL;
+
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -34,5 +37,13 @@ public class OpenGLHelper {
      */
     public static void clearFramebuffer() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    public static void initOpenGL() {
+        GL.createCapabilities();
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, EngineSettings.width, EngineSettings.height, 0, 0.001f, 100f);
+        glMatrixMode(GL_MODELVIEW);
     }
 }

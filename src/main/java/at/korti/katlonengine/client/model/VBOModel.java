@@ -28,7 +28,6 @@ public class VBOModel {
 
         FloatBuffer vertices = BufferUtils.createFloatBuffer(model.getFaces().size() * 9);
         FloatBuffer normals = BufferUtils.createFloatBuffer(model.getFaces().size() * 9);
-        int helper = 0;
         //TODO: Performence issue. Better method to load the vertices and normals in the float buffers.
         for (Face face : model.getFaces()) {
             vertices.put(model.getVertices().get(face.getVertexIndices()[0] - 1).toFloatArray());
@@ -37,7 +36,6 @@ public class VBOModel {
             normals.put(model.getNormals().get(face.getNormalIndices()[0] - 1).toFloatArray());
             normals.put(model.getNormals().get(face.getNormalIndices()[1] - 1).toFloatArray());
             normals.put(model.getNormals().get(face.getNormalIndices()[2] - 1).toFloatArray());
-            helper++;
         }
 
         vertices.flip();
