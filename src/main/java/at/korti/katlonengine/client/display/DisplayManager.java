@@ -4,8 +4,11 @@ import at.korti.katlonengine.KatlonEngine;
 import at.korti.katlonengine.client.input.InputHandler;
 import at.korti.katlonengine.config.EngineSettings;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
+
+import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -52,7 +55,7 @@ public class DisplayManager {
         glfwWindowHint(GLFW_RESIZABLE, EngineSettings.resizeable ? GLFW_TRUE : GLFW_FALSE); // the window will be resizeable, if the resizeable setting is true
 
         // Create the window
-        window = glfwCreateWindow(EngineSettings.width, EngineSettings.width, EngineSettings.displayTitle, NULL, NULL);
+        window = glfwCreateWindow(EngineSettings.width, EngineSettings.height, EngineSettings.displayTitle, NULL, NULL);
         if (window == NULL) {
             logger.error("Failed to create the GLFW window");
             throw new RuntimeException("Failed to create the GLFW window");
@@ -78,6 +81,18 @@ public class DisplayManager {
 
         // Make the window visible
         glfwShowWindow(window);
+    }
+
+    public int getWidth() {
+        IntBuffer buffer = BufferUtils.createIntBuffer(1);
+        glfwGetWindowSize(window, buffer, null);
+        return buffer.get();
+    }
+
+    public int getHeight() {
+        IntBuffer buffer = BufferUtils.createIntBuffer(1);
+        glfwGetWindowSize(window, null, buffer);
+        return buffer.get();
     }
 
     public void swapColorBuffers(){

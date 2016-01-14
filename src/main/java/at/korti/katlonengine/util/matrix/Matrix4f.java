@@ -49,20 +49,19 @@ public class Matrix4f extends Matrix {
         matrix4f.mat00 = 1.0f;
         matrix4f.mat01 = 0.0f;
         matrix4f.mat02 = 0.0f;
-        matrix4f.mat03 = 1.0f;
-        matrix4f.mat10 = 1.0f;
+        matrix4f.mat03 = 0.0f;
+        matrix4f.mat10 = 0.0f;
         matrix4f.mat11 = 1.0f;
-        matrix4f.mat12 = 1.0f;
-        matrix4f.mat13 = 1.0f;
-        matrix4f.mat20 = 1.0f;
-        matrix4f.mat21 = 1.0f;
+        matrix4f.mat12 = 0.0f;
+        matrix4f.mat13 = 0.0f;
+        matrix4f.mat20 = 0.0f;
+        matrix4f.mat21 = 0.0f;
         matrix4f.mat22 = 1.0f;
-        matrix4f.mat23 = 1.0f;
-        matrix4f.mat30 = 1.0f;
-        matrix4f.mat31 = 1.0f;
-        matrix4f.mat32 = 1.0f;
+        matrix4f.mat23 = 0.0f;
+        matrix4f.mat30 = 0.0f;
+        matrix4f.mat31 = 0.0f;
+        matrix4f.mat32 = 0.0f;
         matrix4f.mat33 = 1.0f;
-
 
         return matrix4f;
     }
@@ -102,21 +101,21 @@ public class Matrix4f extends Matrix {
             float mat33 = determinant3x3(src.mat00, src.mat01, src.mat02, src.mat10, src.mat11, src.mat12, src.mat20, src.mat21, src.mat22);
 
             dest.mat00 = mat00 * determinant_inv;
-            dest.mat11 = mat00 * determinant_inv;
-            dest.mat22 = mat00 * determinant_inv;
-            dest.mat33 = mat00 * determinant_inv;
-            dest.mat01 = mat00 * determinant_inv;
-            dest.mat10 = mat00 * determinant_inv;
-            dest.mat20 = mat00 * determinant_inv;
-            dest.mat02 = mat00 * determinant_inv;
-            dest.mat12 = mat00 * determinant_inv;
-            dest.mat21 = mat00 * determinant_inv;
-            dest.mat03 = mat00 * determinant_inv;
-            dest.mat30 = mat00 * determinant_inv;
-            dest.mat13 = mat00 * determinant_inv;
-            dest.mat31 = mat00 * determinant_inv;
-            dest.mat32 = mat00 * determinant_inv;
-            dest.mat23 = mat00 * determinant_inv;
+            dest.mat11 = mat11 * determinant_inv;
+            dest.mat22 = mat22 * determinant_inv;
+            dest.mat33 = mat33 * determinant_inv;
+            dest.mat01 = mat10 * determinant_inv;
+            dest.mat10 = mat01 * determinant_inv;
+            dest.mat20 = mat02 * determinant_inv;
+            dest.mat02 = mat20 * determinant_inv;
+            dest.mat12 = mat21 * determinant_inv;
+            dest.mat21 = mat12 * determinant_inv;
+            dest.mat03 = mat30 * determinant_inv;
+            dest.mat30 = mat03 * determinant_inv;
+            dest.mat13 = mat31 * determinant_inv;
+            dest.mat31 = mat13 * determinant_inv;
+            dest.mat32 = mat23 * determinant_inv;
+            dest.mat23 = mat32 * determinant_inv;
 
             return dest;
         } else {
@@ -431,10 +430,10 @@ public class Matrix4f extends Matrix {
             dest = new Matrix4f();
         }
 
-        dest.mat30 += src.mat00 * vec.x + src.mat10 * vec.y + src.mat20 + vec.z;
-        dest.mat31 += src.mat01 * vec.x + src.mat11 * vec.y + src.mat21 + vec.z;
-        dest.mat32 += src.mat02 * vec.x + src.mat12 * vec.y + src.mat22 + vec.z;
-        dest.mat33 += src.mat03 * vec.x + src.mat13 * vec.y + src.mat23 + vec.z;
+        dest.mat30 += src.mat00 * vec.x + src.mat10 * vec.y + src.mat20 * vec.z;
+        dest.mat31 += src.mat01 * vec.x + src.mat11 * vec.y + src.mat21 * vec.z;
+        dest.mat32 += src.mat02 * vec.x + src.mat12 * vec.y + src.mat22 * vec.z;
+        dest.mat33 += src.mat03 * vec.x + src.mat13 * vec.y + src.mat23 * vec.z;
 
         return dest;
     }
@@ -477,8 +476,8 @@ public class Matrix4f extends Matrix {
             dest = new Matrix4f();
         }
 
-        float c = (float) Math.cos(angle);
-        float s = (float) Math.sin(angle);
+        float c = (float) Math.cos((double)angle);
+        float s = (float) Math.sin((double) angle);
         float oC = 1.0f - c;
         float xy = axis.x * axis.y;
         float yz = axis.y * axis.z;
@@ -499,18 +498,26 @@ public class Matrix4f extends Matrix {
         float f21 = yz * oC - xs;
         float f22 = axis.z * axis.z * oC + c;
 
-        dest.mat00 = src.mat00 * f00 + src.mat10 * f01 + src.mat20 * f02;
-        dest.mat01 = src.mat01 * f00 + src.mat11 * f01 + src.mat21 * f02;
-        dest.mat02 = src.mat02 * f00 + src.mat12 * f01 + src.mat22 * f02;
-        dest.mat03 = src.mat03 * f00 + src.mat13 * f01 + src.mat23 * f02;
-        dest.mat10 = src.mat00 * f10 + src.mat10 * f11 + src.mat20 * f12;
-        dest.mat11 = src.mat01 * f10 + src.mat11 * f11 + src.mat21 * f12;
-        dest.mat12 = src.mat02 * f10 + src.mat12 * f11 + src.mat22 * f12;
-        dest.mat13 = src.mat03 * f10 + src.mat13 * f11 + src.mat23 * f12;
+        float t00 = src.mat00 * f00 + src.mat10 * f01 + src.mat20 * f02;
+        float t01 = src.mat01 * f00 + src.mat11 * f01 + src.mat21 * f02;
+        float t02 = src.mat02 * f00 + src.mat12 * f01 + src.mat22 * f02;
+        float t03 = src.mat03 * f00 + src.mat13 * f01 + src.mat23 * f02;
+        float t10 = src.mat00 * f10 + src.mat10 * f11 + src.mat20 * f12;
+        float t11 = src.mat01 * f10 + src.mat11 * f11 + src.mat21 * f12;
+        float t12 = src.mat02 * f10 + src.mat12 * f11 + src.mat22 * f12;
+        float t13 = src.mat03 * f10 + src.mat13 * f11 + src.mat23 * f12;
         dest.mat20 = src.mat00 * f20 + src.mat10 * f21 + src.mat20 * f22;
         dest.mat21 = src.mat01 * f20 + src.mat11 * f21 + src.mat21 * f22;
         dest.mat22 = src.mat02 * f20 + src.mat12 * f21 + src.mat22 * f22;
         dest.mat23 = src.mat03 * f20 + src.mat13 * f21 + src.mat23 * f22;
+        dest.mat00 = t00;
+        dest.mat01 = t01;
+        dest.mat02 = t02;
+        dest.mat03 = t03;
+        dest.mat10 = t10;
+        dest.mat11 = t11;
+        dest.mat12 = t12;
+        dest.mat13 = t13;
 
         return dest;
     }

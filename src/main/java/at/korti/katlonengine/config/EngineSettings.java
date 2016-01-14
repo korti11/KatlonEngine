@@ -20,6 +20,7 @@ public class EngineSettings {
     public static boolean resizeable = true;
     public static boolean vSync = false;
     public static boolean keyCloseActive = false;
+    public static float fieldOfView = 70;
 
     //LWJGL
     public static final String lwjglVersion = Version.getVersion();

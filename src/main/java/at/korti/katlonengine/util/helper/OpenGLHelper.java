@@ -43,7 +43,6 @@ public class OpenGLHelper {
         GL.createCapabilities();
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho(0, EngineSettings.width, EngineSettings.height, 0, 0.001f, 100f);
         glMatrixMode(GL_MODELVIEW);
     }
 }

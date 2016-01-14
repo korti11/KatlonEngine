@@ -41,6 +41,8 @@ public class WavefrontParser {
                     continue;
                 } else if (prefix.equals("v")) {
                     m.getVertices().add(parseVector3f(line));
+                } else if(prefix.equals("vt")){
+
                 } else if (prefix.equals("vn")) {
                     m.getNormals().add(parseVector3f(line));
                 } else if (prefix.equals("f")) {
