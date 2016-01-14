@@ -7,7 +7,7 @@ import java.io.*;
  */
 public abstract class DataTagBase {
 
-    public static DataTagBase getType(byte id) {
+    public static DataTagBase getType(int id) {
         switch (id) {
             default:
                 return null;

@@ -7,11 +7,11 @@ import java.io.IOException;
 /**
  * Created by Korti on 14.01.2016.
  */
-public class DataString extends DataTagBase {
+public class DataTagString extends DataTagBase {
 
     public String data;
 
-    public DataString(String data) {
+    public DataTagString(String data) {
         this.data = data;
     }
 
@@ -27,7 +27,7 @@ public class DataString extends DataTagBase {
 
     @Override
     public DataTagBase copy() {
-        return new DataString(data);
+        return new DataTagString(data);
     }
 
     @Override

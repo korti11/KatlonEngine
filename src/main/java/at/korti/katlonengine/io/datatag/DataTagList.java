@@ -20,9 +20,9 @@ public class DataTagList extends DataTagBase {
     @Override
     public void readData(DataInput reader) throws IOException {
         tags.clear();
-        byte id;
+        int id;
 
-        while ((id = reader.readByte()) != 0) {
+        while ((id = reader.readInt()) != 0) {
             DataTagBase tag = getType(id);
             tag.readData(reader);
             tags.add(tag);
