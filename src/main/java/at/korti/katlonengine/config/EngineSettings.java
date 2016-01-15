@@ -18,7 +18,7 @@ public class EngineSettings {
     public static int height = 720;
     public static String displayTitle = "Katlon Engine";
     public static boolean resizeable = true;
-    public static boolean vSync = false;
+    public static boolean vSync = true;
     public static boolean keyCloseActive = false;
     public static float fieldOfView = 70;
 
