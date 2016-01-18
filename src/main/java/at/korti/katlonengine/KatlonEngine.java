@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * Created by Korti on 29.12.2015.
  */
-public class KatlonEngine {
+public final class KatlonEngine {
 
     private static KatlonEngine instance;
     public static EventBus EVENT_BUS = new EventBus();

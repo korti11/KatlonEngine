@@ -41,8 +41,5 @@ public class OpenGLHelper {
 
     public static void initOpenGL() {
         GL.createCapabilities();
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glMatrixMode(GL_MODELVIEW);
     }
 }

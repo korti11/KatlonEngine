@@ -68,8 +68,8 @@ public class WavefrontParser {
 
     private Face parseFace(boolean hasNormals, String line) {
         String[] faceIndices = line.split(" ");
-        int[] vertexIndices = {Integer.parseInt(faceIndices[1].split("/")[0]),
-                Integer.parseInt(faceIndices[2].split("/")[0]), Integer.parseInt(faceIndices[3].split("/")[0])};
+        int[] vertexIndices = {Integer.parseInt(faceIndices[1].split("/")[0]) - 1,
+                Integer.parseInt(faceIndices[2].split("/")[0]) - 1, Integer.parseInt(faceIndices[3].split("/")[0]) - 1};
         if (hasNormals) {
             int[] normalInices = new int[3];
             normalInices[0] = Integer.parseInt(faceIndices[1].split("/")[2]);
