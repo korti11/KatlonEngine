@@ -31,9 +31,9 @@ public class ModelRegistry {
         }
     }
 
-    public static void addModelForWaveFrontFile(String id, String pathToFile) {
+    public static void addModelForWaveFrontFile(String id, String pathToObjFile, String pathToMtlFile) {
         if(!isKeyInUse(id)) {
-            WavefrontParser parser = new WavefrontParser(pathToFile);
+            WavefrontParser parser = new WavefrontParser(pathToObjFile, pathToMtlFile);
             addModel(id, parser.parse());
         }
     }

@@ -1,5 +1,6 @@
 package at.korti.katlonengine.client.shader;
 
+import at.korti.katlonengine.client.model.VAOModel;
 import at.korti.katlonengine.util.matrix.Matrix4f;
 
 /**
@@ -20,7 +21,8 @@ public class MasterShader extends Shader {
 
     @Override
     protected void bindAttributes() {
-        bindAttribute(0, "position");
+        bindAttribute(VAOModel.vertexAttribute, "position");
+        bindAttribute(VAOModel.ambientColorAttribute, "ambientColor");
     }
 
     @Override
