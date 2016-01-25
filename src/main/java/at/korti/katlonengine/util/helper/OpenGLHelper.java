@@ -1,6 +1,5 @@
 package at.korti.katlonengine.util.helper;
 
-import at.korti.katlonengine.config.EngineSettings;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.opengl.GL11.*;

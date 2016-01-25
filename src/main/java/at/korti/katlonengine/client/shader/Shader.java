@@ -12,7 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL20.*;
 
 /**

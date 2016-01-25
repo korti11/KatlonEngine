@@ -2,7 +2,7 @@ package at.korti.katlonengine.config;
 
 import org.lwjgl.Version;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 /**
  * Created by Korti on 29.12.2015.

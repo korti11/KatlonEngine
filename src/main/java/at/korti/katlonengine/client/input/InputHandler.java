@@ -1,6 +1,5 @@
 package at.korti.katlonengine.client.input;
 
-import at.korti.katlonengine.KatlonEngine;
 import at.korti.katlonengine.client.input.event.CursorPosEvent;
 import at.korti.katlonengine.client.input.event.KeyInputEvent;
 import at.korti.katlonengine.client.input.event.MouseButtonInputEvent;
@@ -12,7 +11,7 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
 
-import static at.korti.katlonengine.KatlonEngine.*;
+import static at.korti.katlonengine.KatlonEngine.EVENT_BUS;
 import static org.lwjgl.glfw.GLFW.*;
 /**
  * Created by Korti on 06.01.2016.

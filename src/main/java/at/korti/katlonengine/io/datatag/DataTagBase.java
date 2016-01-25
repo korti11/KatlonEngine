@@ -1,6 +1,8 @@
 package at.korti.katlonengine.io.datatag;
 
-import java.io.*;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 
 /**
  * Created by Korti on 14.01.2016.

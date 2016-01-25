@@ -4,7 +4,10 @@ import at.korti.katlonengine.event.Event;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Korti on 29.12.2015.

@@ -1,7 +1,6 @@
 package at.korti.katlonengine.util.helper;
 
 import at.korti.katlonengine.client.display.Camera;
-import at.korti.katlonengine.client.display.DisplayManager;
 import at.korti.katlonengine.config.EngineSettings;
 import at.korti.katlonengine.util.matrix.Matrix4f;
 import at.korti.katlonengine.util.vector.Vector3f;
