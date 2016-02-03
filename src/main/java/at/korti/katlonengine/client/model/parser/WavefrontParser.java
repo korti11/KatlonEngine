@@ -19,12 +19,10 @@ import java.util.Map;
 public class WavefrontParser {
 
     private final String objFile;
-    private final String mtlFile;
     private final Logger logger = KatlonEngine.logger;
 
-    public WavefrontParser(String pathToObjFile, String pathToMtlFile) {
+    public WavefrontParser(String pathToObjFile) {
         this.objFile = pathToObjFile;
-        this.mtlFile = pathToMtlFile;
     }
 
     public Model parse() {
@@ -38,13 +36,12 @@ public class WavefrontParser {
             return m;
         }
         try {
-            Model.Material currentMaterial = null;
             while ((line = reader.readLine()) != null) {
                 String prefix = line.split(" ")[0];
                 if (prefix.equals("#")) {
                     continue;
                 } else if (prefix.equals("mtllib")) {
-                    new MaterialTemplateParser(mtlFile).parse(m);
+                    //Not supported
                 } else if (prefix.equals("v")) {
                     m.getVertices().add(parseVector3f(line));
                 } else if (prefix.equals("vt")) {
@@ -52,9 +49,9 @@ public class WavefrontParser {
                 } else if (prefix.equals("vn")) {
                     m.getNormals().add(parseVector3f(line));
                 } else if (prefix.equals("usemtl")) {
-                    currentMaterial = m.getMaterials().get(line.split(" ")[1]);
+                    //Not supported
                 } else if (prefix.equals("f")) {
-                    m.getFaces().add(parseFace(m.hasNormals(), line, currentMaterial));
+                    m.getFaces().add(parseFace(m.hasNormals(), line));
                 } else {
                     throw new WaveFrontParseException("OBJ file contains a line which couldn't be parsed correctly: " + line);
                 }
@@ -74,7 +71,7 @@ public class WavefrontParser {
         return new Vector3f(x, y, z);
     }
 
-    private Face parseFace(boolean hasNormals, String line, Model.Material material) {
+    private Face parseFace(boolean hasNormals, String line) {
         String[] faceIndices = line.split(" ");
         int[] vertexIndices = {Integer.parseInt(faceIndices[1].split("/")[0]) - 1,
                 Integer.parseInt(faceIndices[2].split("/")[0]) - 1, Integer.parseInt(faceIndices[3].split("/")[0]) - 1};
@@ -83,9 +80,9 @@ public class WavefrontParser {
             normalInices[0] = Integer.parseInt(faceIndices[1].split("/")[2]);
             normalInices[1] = Integer.parseInt(faceIndices[2].split("/")[2]);
             normalInices[2] = Integer.parseInt(faceIndices[3].split("/")[2]);
-            return new Face(vertexIndices, normalInices, material);
+            return new Face(vertexIndices, normalInices);
         } else {
-            return new Face(vertexIndices, material);
+            return new Face(vertexIndices);
         }
     }
 

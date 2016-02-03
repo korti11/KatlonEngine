@@ -15,13 +15,11 @@ public class Model {
     protected final List<Vector3f> vertices;
     protected final List<Vector3f> normals;
     protected final List<Face> faces;
-    protected final Map<String, Material> materials;
 
     public Model() {
         vertices = new LinkedList<>();
         normals = new LinkedList<>();
         faces = new LinkedList<>();
-        materials = new HashMap<>();
     }
 
     public boolean hasNormals() {
@@ -40,38 +38,4 @@ public class Model {
         return faces;
     }
 
-    public Map<String, Material> getMaterials() {
-        return materials;
-    }
-
-    public static class Material{
-
-        private Vector3f ambientColor;
-        private Vector3f diffuseColor;
-        private Vector3f specularColor;
-        private float specularWeight;
-
-        public Material(Vector3f ambientColor, Vector3f diffuseColor, Vector3f specularColor, float specularWeight) {
-            this.ambientColor = ambientColor;
-            this.diffuseColor = diffuseColor;
-            this.specularColor = specularColor;
-            this.specularWeight = specularWeight;
-        }
-
-        public Vector3f getAmbientColor() {
-            return ambientColor;
-        }
-
-        public Vector3f getDiffuseColor() {
-            return diffuseColor;
-        }
-
-        public Vector3f getSpecularColor() {
-            return specularColor;
-        }
-
-        public float getSpecularWeight() {
-            return specularWeight;
-        }
-    }
 }

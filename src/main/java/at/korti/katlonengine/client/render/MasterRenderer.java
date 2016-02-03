@@ -3,6 +3,7 @@ package at.korti.katlonengine.client.render;
 import at.korti.katlonengine.client.display.Camera;
 import at.korti.katlonengine.client.model.VAOModel;
 import at.korti.katlonengine.client.shader.MasterShader;
+import at.korti.katlonengine.components.Light;
 import at.korti.katlonengine.util.helper.MatrixHelper;
 import at.korti.katlonengine.util.helper.OpenGLHelper;
 import at.korti.katlonengine.util.matrix.Matrix4f;
@@ -24,6 +25,7 @@ public class MasterRenderer {
     private MasterShader shader;
     private Matrix4f projectionMatrix;
     public Camera camera;
+    public Light light;
 
     private MasterRenderer() {
         models = new LinkedList<>();
@@ -45,9 +47,11 @@ public class MasterRenderer {
         glCullFace(GL_BACK);
         shader = new MasterShader();
         camera = new Camera();
+        light = new Light(new Vector3f(-10, 0, -20), new Vector3f(1, 1, 1));
         projectionMatrix = MatrixHelper.projectionMatrix();
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
+        shader.loadLight(light);
         shader.stop();
     }
 

@@ -7,7 +7,6 @@ public class Face {
 
     private final int[] vertexIndices = {-1, -1, -1};
     private final int[] normalIndices = {-1, -1, -1};
-    private Model.Material material;
 
     public Face(int[] vertexIndices) {
         this.vertexIndices[0] = vertexIndices[0];
@@ -22,16 +21,6 @@ public class Face {
         this.normalIndices[2] = normalIndices[2];
     }
 
-    public Face(int[] vertexIndices, Model.Material material) {
-        this(vertexIndices);
-        this.material = material;
-    }
-
-    public Face(int[] vertexIndices, int[] normalIndices, Model.Material material) {
-        this(vertexIndices, normalIndices);
-        this.material = material;
-    }
-
     public int[] getVertexIndices() {
         return vertexIndices;
     }
@@ -40,7 +29,4 @@ public class Face {
         return normalIndices;
     }
 
-    public Model.Material getMaterial() {
-        return material;
-    }
 }
