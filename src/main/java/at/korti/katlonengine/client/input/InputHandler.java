@@ -29,6 +29,9 @@ public class InputHandler {
         this.window = window;
     }
 
+    /**
+     * Init all inputs.
+     */
     public void init() {
 
         //Register input events

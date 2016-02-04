@@ -13,6 +13,16 @@ public class MatrixHelper {
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 100;
 
+    /**
+     * Create a transformation matrix for the shader program.
+     *
+     * @param translation Translation for the model
+     * @param rx          Rotation in the x direction
+     * @param ry          Rotation in the y direction
+     * @param rz          Rotation in the z direction
+     * @param scale       Scale the model in the x, y and z direction.
+     * @return Transformation matrix
+     */
     public static Matrix4f createTransformationMatrix(Vector3f translation, float rx, float ry, float rz, float scale) {
         Matrix4f matrix = new Matrix4f();
         matrix.setIdentity();
@@ -24,6 +34,10 @@ public class MatrixHelper {
         return matrix;
     }
 
+    /**
+     * Create a projection matrix of the settings.
+     * @return Projection matrix.
+     */
     public static Matrix4f projectionMatrix() {
         float aspectRatio = (float) EngineSettings.width / (float) EngineSettings.height;
         float y_scale = (float) ((1f / Math.tan(Math.toRadians(EngineSettings.fieldOfView / 2f))) * aspectRatio);
@@ -41,6 +55,11 @@ public class MatrixHelper {
         return matrix;
     }
 
+    /**
+     * Create a view matrix of the camera object.
+     * @param camera Camera
+     * @return View matrix
+     */
     public static Matrix4f createViewMatrix(Camera camera) {
         Matrix4f matrix = new Matrix4f();
         matrix.setIdentity();

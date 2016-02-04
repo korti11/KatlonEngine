@@ -16,6 +16,12 @@ public class FileManager {
 
     private static Logger logger = KatlonEngine.logger;
 
+    /**
+     * Write or overwrite the file with the data tag compound.
+     *
+     * @param path     Path to the file
+     * @param compound Data that is writen to the file
+     */
     public static void writeTagCompoundToFile(String path, DataTagCompound compound) {
         try {
             compound.writeData(new DataOutputStream(new FileOutputStream(path)));
@@ -24,6 +30,11 @@ public class FileManager {
         }
     }
 
+    /**
+     * Append the data tag compound to the file.
+     * @param path Path to the file
+     * @param compound Data that is append to the file
+     */
     public static void appendTagCompoundToFile(String path, DataTagCompound compound) {
         try {
             compound.writeData(new DataOutputStream(new FileOutputStream(path, true)));
@@ -32,6 +43,11 @@ public class FileManager {
         }
     }
 
+    /**
+     * Write or overwrite the file with the data tag list.
+     * @param path Path to the file
+     * @param list Data that is writen to the file
+     */
     public static void writeTagListToFile(String path, DataTagList list) {
         try {
             list.writeData(new DataOutputStream(new FileOutputStream(path)));
@@ -40,6 +56,11 @@ public class FileManager {
         }
     }
 
+    /**
+     * Append the data tag list to the file.
+     * @param path Path to the file
+     * @param list Data that is append to the file
+     */
     public static void appendTagListToFile(String path, DataTagList list) {
         try {
             list.writeData(new DataOutputStream(new FileOutputStream(path, true)));

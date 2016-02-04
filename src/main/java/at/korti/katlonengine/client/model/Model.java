@@ -2,18 +2,19 @@ package at.korti.katlonengine.client.model;
 
 import at.korti.katlonengine.util.vector.Vector3f;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Korti on 07.01.2016.
  */
 public class Model {
 
+    //List of all vertices of the model.
     protected final List<Vector3f> vertices;
+    //List of all normals of the model.
     protected final List<Vector3f> normals;
+    //List of all faces of the model.
     protected final List<Face> faces;
 
     public Model() {
@@ -22,6 +23,9 @@ public class Model {
         faces = new LinkedList<>();
     }
 
+    /**
+     * @return If the model has normals.
+     */
     public boolean hasNormals() {
         return normals.size() > 0;
     }

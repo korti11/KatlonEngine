@@ -20,6 +20,12 @@ public class Camera {
         KatlonEngine.EVENT_BUS.register(this);
     }
 
+    /**
+     * Handle the movement of the camera object.
+     *
+     * @param event The KeyInputEvent with the pressed key, the action of the key (Press, Pressed or Release),
+     *              the window where the key was pressed, the scancode and the mod.
+     */
     @SubscribeEvent
     public void move(KeyInputEvent event) {
         if(event.getAction() != GLFW_RELEASE) {

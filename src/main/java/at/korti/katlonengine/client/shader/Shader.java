@@ -65,10 +65,22 @@ public abstract class Shader {
         return shaderID;
     }
 
+    /**
+     * Bind all attributes of the OpenGL attribute list, to use it as a in variable in the shader program.
+     */
     protected abstract void bindAttributes();
 
+    /**
+     * Find all locations of the uniform variables.
+     */
     protected abstract void getAllUniformLocations();
 
+    /**
+     * Bind a attribute to a variable of the shader program.
+     *
+     * @param attribute    ID of OpenGL attribute list.
+     * @param variableName Name of the variable in the shader program.
+     */
     protected void bindAttribute(int attribute, String variableName) {
         glBindAttribLocation(programID, attribute, variableName);
     }
@@ -95,19 +107,40 @@ public abstract class Shader {
     }
 
     //region Value load
+
+    /**
+     * Load a float value to a uniform variable in the shader program.
+     * @param location Location id of the uniform variable.
+     * @param value Value you want to load in.
+     */
     protected void loadFloat(int location, float value) {
         glUniform1f(location, value);
     }
 
+    /**
+     * Load a int value to a uniform variable in the shader program.
+     * @param location Location id of the uniform variable.
+     * @param value Value you want to load in.
+     */
     protected void loadInt(int location, int value) {
         glUniform1i(location, value);
     }
 
+    /**
+     * Load a boolean value to a uniform variable in the shader program.
+     * @param location Location id of the uniform variable.
+     * @param value Value you want to load in.
+     */
     protected void loadBoolean(int location, boolean value) {
         float help = value ? 1 : 0;
         loadFloat(location, help);
     }
 
+    /**
+     * Load a vector value to a uniform variable in the shader program.
+     * @param location Location id of the uniform variable.
+     * @param vector Value you want to load in.
+     */
     protected void loadVector(int location, Vector vector) {
         if (vector instanceof Vector3f) {
             Vector3f help = (Vector3f) vector;
@@ -115,6 +148,11 @@ public abstract class Shader {
         }
     }
 
+    /**
+     * Load a matrix4f value to a uniform variable in the shader program.
+     * @param location Location id of the uniform variable.
+     * @param matrix Value you want to load in.
+     */
     protected void loadMatrix4f(int location, Matrix4f matrix) {
         matrix.store(matrixBuffer);
         matrixBuffer.flip();

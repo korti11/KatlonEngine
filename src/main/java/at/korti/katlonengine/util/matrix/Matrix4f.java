@@ -30,21 +30,12 @@ public class Matrix4f extends Matrix {
         load(src);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(mat00).append(mat01).append(mat02).append(mat03);
-        builder.append(mat10).append(mat11).append(mat12).append(mat13);
-        builder.append(mat20).append(mat21).append(mat22).append(mat23);
-        builder.append(mat30).append(mat31).append(mat32).append(mat33);
-        return builder.toString();
-    }
-
-    @Override
-    public Matrix setIdentity() {
-        return setIdentity(this);
-    }
-
+    /**
+     * Change the matrix to a identity matrix.
+     *
+     * @param matrix4f Matrix to change
+     * @return Identity Matrix
+     */
     public static Matrix4f setIdentity(Matrix4f matrix4f) {
         matrix4f.mat00 = 1.0f;
         matrix4f.mat01 = 0.0f;
@@ -66,11 +57,12 @@ public class Matrix4f extends Matrix {
         return matrix4f;
     }
 
-    @Override
-    public Matrix invert() {
-        return invert(this, this);
-    }
-
+    /**
+     * Invert the source matrix and stores it in the destination matrix.
+     * @param src Source matrix
+     * @param dest Destination matrix
+     * @return Inverted matrix
+     */
     public static Matrix4f invert(Matrix4f src, Matrix4f dest) {
         float determinant = src.determinant();
 
@@ -123,31 +115,12 @@ public class Matrix4f extends Matrix {
         }
     }
 
-    @Override
-    public Matrix load(FloatBuffer buffer) {
-        mat00 = buffer.get();
-        mat01 = buffer.get();
-        mat02 = buffer.get();
-        mat03 = buffer.get();
-        mat10 = buffer.get();
-        mat11 = buffer.get();
-        mat12 = buffer.get();
-        mat13 = buffer.get();
-        mat20 = buffer.get();
-        mat21 = buffer.get();
-        mat22 = buffer.get();
-        mat23 = buffer.get();
-        mat30 = buffer.get();
-        mat31 = buffer.get();
-        mat32 = buffer.get();
-        mat33 = buffer.get();
-        return this;
-    }
-
-    public void load(Matrix4f src) {
-        load(src, this);
-    }
-
+    /**
+     * Copy the source matrix to the destination matrix.
+     * @param src Source matrix
+     * @param dest Destination matrix
+     * @return A copy of the source matrix
+     */
     public static Matrix4f load(Matrix4f src, Matrix4f dest) {
         if (dest == null) {
             dest = new Matrix4f();
@@ -172,116 +145,13 @@ public class Matrix4f extends Matrix {
         return dest;
     }
 
-    @Override
-    public Matrix loadTranspose(FloatBuffer buffer) {
-        mat00 = buffer.get();
-        mat10 = buffer.get();
-        mat20 = buffer.get();
-        mat30 = buffer.get();
-        mat01 = buffer.get();
-        mat11 = buffer.get();
-        mat21 = buffer.get();
-        mat31 = buffer.get();
-        mat02 = buffer.get();
-        mat12 = buffer.get();
-        mat22 = buffer.get();
-        mat32 = buffer.get();
-        mat03 = buffer.get();
-        mat13 = buffer.get();
-        mat23 = buffer.get();
-        mat33 = buffer.get();
-        return this;
-    }
-
-    @Override
-    public Matrix negate() {
-        return negate(this);
-    }
-
-    public Matrix4f negate(Matrix4f dest) {
-        return negate(this, dest);
-    }
-
-    public Matrix4f negate(Matrix4f src, Matrix4f dest) {
-        if (dest == null) {
-            dest = new Matrix4f();
-        }
-
-        dest.mat00 = -src.mat00;
-        dest.mat01 = -src.mat01;
-        dest.mat02 = -src.mat02;
-        dest.mat03 = -src.mat03;
-        dest.mat10 = -src.mat10;
-        dest.mat11 = -src.mat11;
-        dest.mat12 = -src.mat12;
-        dest.mat13 = -src.mat13;
-        dest.mat20 = -src.mat20;
-        dest.mat21 = -src.mat21;
-        dest.mat22 = -src.mat22;
-        dest.mat23 = -src.mat23;
-        dest.mat30 = -src.mat30;
-        dest.mat31 = -src.mat31;
-        dest.mat32 = -src.mat32;
-        dest.mat33 = -src.mat33;
-
-        return dest;
-    }
-
-    @Override
-    public Matrix store(FloatBuffer buffer) {
-        buffer.put(mat00);
-        buffer.put(mat01);
-        buffer.put(mat02);
-        buffer.put(mat03);
-        buffer.put(mat10);
-        buffer.put(mat11);
-        buffer.put(mat12);
-        buffer.put(mat13);
-        buffer.put(mat20);
-        buffer.put(mat21);
-        buffer.put(mat22);
-        buffer.put(mat23);
-        buffer.put(mat30);
-        buffer.put(mat31);
-        buffer.put(mat32);
-        buffer.put(mat33);
-        return this;
-    }
-
-    @Override
-    public Matrix storeTranspose(FloatBuffer buffer) {
-        buffer.put(mat00);
-        buffer.put(mat10);
-        buffer.put(mat20);
-        buffer.put(mat30);
-        buffer.put(mat01);
-        buffer.put(mat11);
-        buffer.put(mat21);
-        buffer.put(mat31);
-        buffer.put(mat02);
-        buffer.put(mat12);
-        buffer.put(mat22);
-        buffer.put(mat32);
-        buffer.put(mat03);
-        buffer.put(mat13);
-        buffer.put(mat23);
-        buffer.put(mat33);
-        return this;
-    }
-
-    public Matrix store3f(FloatBuffer buffer) {
-        buffer.put(mat00);
-        buffer.put(mat01);
-        buffer.put(mat02);
-        buffer.put(mat10);
-        buffer.put(mat11);
-        buffer.put(mat12);
-        buffer.put(mat20);
-        buffer.put(mat21);
-        buffer.put(mat22);
-        return this;
-    }
-
+    /**
+     * Add the right matrix to the left matrix and stores it in the destination matrix.
+     * @param left Left matrix
+     * @param right Right matrix
+     * @param dest Destination matrix
+     * @return Destination matrix
+     */
     public static Matrix4f add(Matrix4f left, Matrix4f right, Matrix4f dest) {
         if (dest == null) {
             dest = new Matrix4f();
@@ -307,6 +177,13 @@ public class Matrix4f extends Matrix {
         return dest;
     }
 
+    /**
+     * Subtract the right matrix of the left matrix and stores it in the destination matrix.
+     * @param left Left matrix
+     * @param right Right matrix
+     * @param dest Destination matrix
+     * @return Destination matrix
+     */
     public static Matrix4f sub(Matrix4f left, Matrix4f right, Matrix4f dest) {
         if (dest == null) {
             dest = new Matrix4f();
@@ -332,6 +209,13 @@ public class Matrix4f extends Matrix {
         return dest;
     }
 
+    /**
+     * Multiple the right matrix to the left matrix and stores it to the destination matrix
+     * @param left Left matrix
+     * @param right Right matrix
+     * @param dest Destination matrix
+     * @return Destination matrix
+     */
     public static Matrix4f mul(Matrix4f left, Matrix4f right, Matrix4f dest) {
         if (dest == null) {
             dest = new Matrix4f();
@@ -357,15 +241,12 @@ public class Matrix4f extends Matrix {
         return dest;
     }
 
-    @Override
-    public Matrix transpose() {
-        return transpose(this);
-    }
-
-    public Matrix4f transpose(Matrix4f dest) {
-        return transpose(this, dest);
-    }
-
+    /**
+     * Transpose the source matrix and stores it in the destination matrix
+     * @param src Source matrix
+     * @param dest Destination matrix
+     * @return Transposed matrix
+     */
     public static Matrix4f transpose(Matrix4f src, Matrix4f dest) {
         if (dest == null) {
             dest = new Matrix4f();
@@ -391,11 +272,11 @@ public class Matrix4f extends Matrix {
         return dest;
     }
 
-    @Override
-    public Matrix setZero() {
-        return setZero(this);
-    }
-
+    /**
+     * Set all values of the source matrix 0.
+     * @param matrix4f Source matrix
+     * @return Zero matrix
+     */
     public static Matrix4f setZero(Matrix4f matrix4f) {
         matrix4f.mat00 = 0.0f;
         matrix4f.mat01 = 0.0f;
@@ -417,14 +298,14 @@ public class Matrix4f extends Matrix {
         return matrix4f;
     }
 
-    public Matrix4f translate(Vector3f vec) {
-        return translate(vec, this);
-    }
-
-    public Matrix4f translate(Vector3f vec, Matrix4f dest) {
-        return translate(vec, this, dest);
-    }
-
+    /**
+     * Translate the source matrix in the direction of the vector
+     * and stores it in the destination matrix.
+     * @param vec Vector
+     * @param src Source matrix
+     * @param dest Destination matrix
+     * @return Translated matrix
+     */
     public static Matrix4f translate(Vector3f vec, Matrix4f src, Matrix4f dest) {
         if (dest == null) {
             dest = new Matrix4f();
@@ -438,10 +319,13 @@ public class Matrix4f extends Matrix {
         return dest;
     }
 
-    public Matrix4f scale(Vector3f vec) {
-        return scale(vec, this, this);
-    }
-
+    /**
+     * Scale the source matrix of the vector and stores it in the destination matrix.
+     * @param vec Vector
+     * @param src Source matrix
+     * @param dest Destination matrix
+     * @return Destination matrix
+     */
     public static Matrix4f scale(Vector3f vec, Matrix4f src, Matrix4f dest) {
         if (dest == null) {
             dest = new Matrix4f();
@@ -463,14 +347,15 @@ public class Matrix4f extends Matrix {
         return dest;
     }
 
-    public Matrix4f rotate(float angle, Vector3f axis) {
-        return rotate(angle, axis, this);
-    }
-
-    public Matrix4f rotate(float angle, Vector3f axis, Matrix4f dest) {
-        return rotate(angle, axis, this, dest);
-    }
-
+    /**
+     * Rotate the source matrix by the angle on the given axis in the vector
+     * and stores it in the destination matrix.
+     * @param angle How much the matrix should be rotated
+     * @param axis Specify the axis where the rotation should be applied
+     * @param src Source matrix
+     * @param dest Destination matrix
+     * @return Rotated matrix
+     */
     public static Matrix4f rotate(float angle, Vector3f axis, Matrix4f src, Matrix4f dest) {
         if (dest == null) {
             dest = new Matrix4f();
@@ -522,6 +407,325 @@ public class Matrix4f extends Matrix {
         return dest;
     }
 
+    private static float determinant3x3(float mat00, float mat01, float mat02,
+                                        float mat10, float mat11, float mat12,
+                                        float mat20, float mat21, float mat22) {
+        return mat00 * (mat11 * mat22 - mat12 * mat21)
+                + mat01 * (mat12 * mat20 - mat10 * mat22)
+                + mat02 * (mat10 * mat21 - mat11 * mat20);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(mat00).append(mat01).append(mat02).append(mat03);
+        builder.append(mat10).append(mat11).append(mat12).append(mat13);
+        builder.append(mat20).append(mat21).append(mat22).append(mat23);
+        builder.append(mat30).append(mat31).append(mat32).append(mat33);
+        return builder.toString();
+    }
+
+    /**
+     * Change it to a identity matrix
+     *
+     * @return Identity matrix
+     */
+    @Override
+    public Matrix setIdentity() {
+        return setIdentity(this);
+    }
+
+    /**
+     * Invert the matrix.
+     *
+     * @return Inverted matrix
+     */
+    @Override
+    public Matrix invert() {
+        return invert(this, this);
+    }
+
+    /**
+     * Load a matrix of the FloatBuffer.
+     *
+     * @param buffer FloatBuffer with the stored matrix
+     * @return Loaded matrix
+     */
+    @Override
+    public Matrix load(FloatBuffer buffer) {
+        mat00 = buffer.get();
+        mat01 = buffer.get();
+        mat02 = buffer.get();
+        mat03 = buffer.get();
+        mat10 = buffer.get();
+        mat11 = buffer.get();
+        mat12 = buffer.get();
+        mat13 = buffer.get();
+        mat20 = buffer.get();
+        mat21 = buffer.get();
+        mat22 = buffer.get();
+        mat23 = buffer.get();
+        mat30 = buffer.get();
+        mat31 = buffer.get();
+        mat32 = buffer.get();
+        mat33 = buffer.get();
+        return this;
+    }
+
+    /**
+     * Copy the source matrix to this matrix.
+     *
+     * @param src Source matrix
+     */
+    public void load(Matrix4f src) {
+        load(src, this);
+    }
+
+    /**
+     * Load a matrix of the FloatBuffer and transposed it.
+     *
+     * @param buffer FloatBuffer with the stored matrix
+     * @return Transposed matrix
+     */
+    @Override
+    public Matrix loadTranspose(FloatBuffer buffer) {
+        mat00 = buffer.get();
+        mat10 = buffer.get();
+        mat20 = buffer.get();
+        mat30 = buffer.get();
+        mat01 = buffer.get();
+        mat11 = buffer.get();
+        mat21 = buffer.get();
+        mat31 = buffer.get();
+        mat02 = buffer.get();
+        mat12 = buffer.get();
+        mat22 = buffer.get();
+        mat32 = buffer.get();
+        mat03 = buffer.get();
+        mat13 = buffer.get();
+        mat23 = buffer.get();
+        mat33 = buffer.get();
+        return this;
+    }
+
+    /**
+     * Negate the matrix.
+     * This means all positive values are negative and all negative values are positive.
+     *
+     * @return Negated matrix
+     */
+    @Override
+    public Matrix negate() {
+        return negate(this);
+    }
+
+    /**
+     * Negate the matrix and stores it in the destination matrix.
+     *
+     * @param dest Destination matrix
+     * @return Negated matrix
+     */
+    public Matrix4f negate(Matrix4f dest) {
+        return negate(this, dest);
+    }
+
+    /**
+     * Negate the source matrix and stores it in the destination matrix.
+     *
+     * @param src  Source matrix
+     * @param dest Destination matrix
+     * @return Negated matrix
+     */
+    public Matrix4f negate(Matrix4f src, Matrix4f dest) {
+        if (dest == null) {
+            dest = new Matrix4f();
+        }
+
+        dest.mat00 = -src.mat00;
+        dest.mat01 = -src.mat01;
+        dest.mat02 = -src.mat02;
+        dest.mat03 = -src.mat03;
+        dest.mat10 = -src.mat10;
+        dest.mat11 = -src.mat11;
+        dest.mat12 = -src.mat12;
+        dest.mat13 = -src.mat13;
+        dest.mat20 = -src.mat20;
+        dest.mat21 = -src.mat21;
+        dest.mat22 = -src.mat22;
+        dest.mat23 = -src.mat23;
+        dest.mat30 = -src.mat30;
+        dest.mat31 = -src.mat31;
+        dest.mat32 = -src.mat32;
+        dest.mat33 = -src.mat33;
+
+        return dest;
+    }
+
+    /**
+     * Stores the current matrix in the FloatBuffer.
+     *
+     * @param buffer FloatBuffer where the matrix should store.
+     * @return Original Matrix
+     */
+    @Override
+    public Matrix store(FloatBuffer buffer) {
+        buffer.put(mat00);
+        buffer.put(mat01);
+        buffer.put(mat02);
+        buffer.put(mat03);
+        buffer.put(mat10);
+        buffer.put(mat11);
+        buffer.put(mat12);
+        buffer.put(mat13);
+        buffer.put(mat20);
+        buffer.put(mat21);
+        buffer.put(mat22);
+        buffer.put(mat23);
+        buffer.put(mat30);
+        buffer.put(mat31);
+        buffer.put(mat32);
+        buffer.put(mat33);
+        return this;
+    }
+
+    /**
+     * Stores the transposed matrix in the FloatBuffer.
+     *
+     * @param buffer FloatBuffer where the transposed matrix should store.
+     * @return Original matrix
+     */
+    @Override
+    public Matrix storeTranspose(FloatBuffer buffer) {
+        buffer.put(mat00);
+        buffer.put(mat10);
+        buffer.put(mat20);
+        buffer.put(mat30);
+        buffer.put(mat01);
+        buffer.put(mat11);
+        buffer.put(mat21);
+        buffer.put(mat31);
+        buffer.put(mat02);
+        buffer.put(mat12);
+        buffer.put(mat22);
+        buffer.put(mat32);
+        buffer.put(mat03);
+        buffer.put(mat13);
+        buffer.put(mat23);
+        buffer.put(mat33);
+        return this;
+    }
+
+    /**
+     * Stores a 3 x 3 matrix in the FloatBuffer.
+     *
+     * @param buffer FloatBuffer where the 3 x 3 matrix should stored
+     * @return Original matrix
+     */
+    public Matrix store3f(FloatBuffer buffer) {
+        buffer.put(mat00);
+        buffer.put(mat01);
+        buffer.put(mat02);
+        buffer.put(mat10);
+        buffer.put(mat11);
+        buffer.put(mat12);
+        buffer.put(mat20);
+        buffer.put(mat21);
+        buffer.put(mat22);
+        return this;
+    }
+
+    /**
+     * Transpose the current matrix.
+     * This means that the rows are now the columns and the columns are now the rows.
+     *
+     * @return Transposed matrix
+     */
+    @Override
+    public Matrix transpose() {
+        return transpose(this);
+    }
+
+    /**
+     * Transpose the current matrix and stores it in the destination matrix
+     *
+     * @param dest Destination matrix
+     * @return Transposed matrix
+     */
+    public Matrix4f transpose(Matrix4f dest) {
+        return transpose(this, dest);
+    }
+
+    /**
+     * Set all values to 0.
+     *
+     * @return Zero matrix
+     */
+    @Override
+    public Matrix setZero() {
+        return setZero(this);
+    }
+
+    /**
+     * Translate the matrix in the direction of the vector.
+     *
+     * @param vec Vector
+     * @return Translated matrix
+     */
+    public Matrix4f translate(Vector3f vec) {
+        return translate(vec, this);
+    }
+
+    /**
+     * Translate the matrix in the direction of the vector and
+     * stores it in the destination matrix.
+     *
+     * @param vec  Vector
+     * @param dest Destination matrix
+     * @return Translated matrix
+     */
+    public Matrix4f translate(Vector3f vec, Matrix4f dest) {
+        return translate(vec, this, dest);
+    }
+
+    /**
+     * Scale the matrix of the vector.
+     *
+     * @param vec Vector
+     * @return Scaled matrix
+     */
+    public Matrix4f scale(Vector3f vec) {
+        return scale(vec, this, this);
+    }
+
+    /**
+     * Rotate the matrix by the angle on the given axis in the vector.
+     *
+     * @param angle How much the matrix should rotated
+     * @param axis  Specify the axis where the rotation should be applied
+     * @return Rotated matrix
+     */
+    public Matrix4f rotate(float angle, Vector3f axis) {
+        return rotate(angle, axis, this);
+    }
+
+    /**
+     * Rotate the matrix by the angle on the given axis in the vector
+     * and stores it in the destination matrix.
+     *
+     * @param angle How much the matrix should rotated
+     * @param axis  Specify the axis where the rotation should be applied
+     * @param dest  Destination matrix
+     * @return Rotated matrix
+     */
+    public Matrix4f rotate(float angle, Vector3f axis, Matrix4f dest) {
+        return rotate(angle, axis, this, dest);
+    }
+
+    /**
+     * Calculate the determinant of the matrix.
+     *
+     * @return Determinant
+     */
     @Override
     public float determinant() {
         float f = mat00 * ((mat11 * mat22 * mat33 + mat12 * mat23 * mat31 + mat13 * mat21 * mat32)
@@ -545,14 +749,4 @@ public class Matrix4f extends Matrix {
                 - mat11 * mat20 * mat32);
         return f;
     }
-
-    private static float determinant3x3(float mat00, float mat01, float mat02,
-                                        float mat10, float mat11, float mat12,
-                                        float mat20, float mat21, float mat22) {
-        return mat00 * (mat11 * mat22 - mat12 * mat21)
-                + mat01 * (mat12 * mat20 - mat10 * mat22)
-                + mat02 * (mat10 * mat21 - mat11 * mat20);
-    }
-
-
 }

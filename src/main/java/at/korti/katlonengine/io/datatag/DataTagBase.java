@@ -16,10 +16,25 @@ public abstract class DataTagBase {
         }
     }
 
+    /**
+     * Read the value/values for the data tag of the reader.
+     *
+     * @param reader Reader
+     * @throws IOException
+     */
     public abstract void readData(DataInput reader) throws IOException;
 
+    /**
+     * Write the value/values of the data tag to the writer.
+     * @param writer Writer
+     * @throws IOException
+     */
     public abstract void writeData(DataOutput writer) throws IOException;
 
+    /**
+     * Create a exact copy of the data tag.
+     * @return Copy of the data tag.
+     */
     public abstract DataTagBase copy();
 
     public abstract int getId();

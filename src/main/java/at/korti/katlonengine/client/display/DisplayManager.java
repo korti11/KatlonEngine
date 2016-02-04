@@ -38,6 +38,9 @@ public class DisplayManager {
         return instance;
     }
 
+    /**
+     * Init a new window.
+     */
     public void init() {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
@@ -83,12 +86,18 @@ public class DisplayManager {
         glfwShowWindow(window);
     }
 
+    /**
+     * @return Get the width of the window.
+     */
     public int getWidth() {
         IntBuffer buffer = BufferUtils.createIntBuffer(1);
         glfwGetWindowSize(window, buffer, null);
         return buffer.get();
     }
 
+    /**
+     * @return Get the height of the window.
+     */
     public int getHeight() {
         IntBuffer buffer = BufferUtils.createIntBuffer(1);
         glfwGetWindowSize(window, null, buffer);
@@ -103,6 +112,9 @@ public class DisplayManager {
         glfwPollEvents();
     }
 
+    /**
+     * @return Check if the window should be closed.
+     */
     public boolean shouldWindowClose(){
         return glfwWindowShouldClose(window) == GLFW_FALSE;
     }

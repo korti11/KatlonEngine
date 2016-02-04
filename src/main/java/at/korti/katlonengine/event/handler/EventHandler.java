@@ -20,6 +20,12 @@ public class EventHandler {
         handlers = new HashMap<>();
     }
 
+    /**
+     * Added a method that can handle that event.
+     *
+     * @param target  Object that has the method.
+     * @param handler The method that can handle the event.
+     */
     public void addHandler(Object target, Method handler) {
         if (!handlers.containsKey(target)) {
             Set<Method> methods = new HashSet<>();
@@ -32,6 +38,12 @@ public class EventHandler {
         }
     }
 
+    /**
+     * Invoke all method that can handle the event.
+     * @param event Event.
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
     public void invoke(Event event) throws InvocationTargetException, IllegalAccessException {
         for (Map.Entry<Object, Set<Method>> entry : handlers.entrySet()) {
             for (Method method : entry.getValue()) {

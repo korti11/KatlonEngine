@@ -21,20 +21,25 @@ public final class Timing {
         return instance;
     }
 
-    private long getTime() {
-        return System.currentTimeMillis();
-    }
-
-    public void init() {
-        oldTime = getTime();
-    }
-
+    /**
+     * Get the time between the frames.
+     *
+     * @return Time between the frames
+     */
     public static long getDeltaTime() {
         long oldTime = instance().oldTime;
         long newTime = instance().getTime();
         long deltaTime = newTime - oldTime;
         instance().oldTime = newTime;
         return deltaTime;
+    }
+
+    private long getTime() {
+        return System.currentTimeMillis();
+    }
+
+    private void init() {
+        oldTime = getTime();
     }
 
 }

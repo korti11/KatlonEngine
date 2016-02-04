@@ -17,6 +17,11 @@ public class EventBus {
         eventHandlers = new HashMap<>();
     }
 
+    /**
+     * Register a object that contains a method, that can handle a event.
+     *
+     * @param target Object with the method.
+     */
     public void register(Object target) {
         for (Method method : target.getClass().getDeclaredMethods()) {
             if (method.isAnnotationPresent(SubscribeEvent.class)) {
@@ -43,6 +48,10 @@ public class EventBus {
         }
     }
 
+    /**
+     * Register a new event.
+     * @param event Event.
+     */
     public void registerEvent(Class<? extends Event> event) {
         if (eventHandlers.containsKey(event)) {
             return;
@@ -50,6 +59,10 @@ public class EventBus {
         eventHandlers.put(event, new EventHandler());
     }
 
+    /**
+     * Invoke the event.
+     * @param event Event.
+     */
     public void fireEvent(Event event) {
         EventHandler handler = eventHandlers.get(event.getClass());
         try {

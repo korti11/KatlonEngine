@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by Korti on 07.01.2016.
@@ -25,6 +24,11 @@ public class WavefrontParser {
         this.objFile = pathToObjFile;
     }
 
+    /**
+     * Parse a new model of a .obj file.
+     *
+     * @return Parsed Model.
+     */
     public Model parse() {
         BufferedReader reader;
         Model m = new Model();
@@ -38,22 +42,22 @@ public class WavefrontParser {
         try {
             while ((line = reader.readLine()) != null) {
                 String prefix = line.split(" ")[0];
-                if (prefix.equals("#")) {
+                if (prefix.equals("#")) { //Comments should be ignored.
                     continue;
-                } else if (prefix.equals("mtllib")) {
+                } else if (prefix.equals("mtllib")) { //Materials are not supported and be ignored.
                     //Not supported
-                } else if (prefix.equals("v")) {
+                } else if (prefix.equals("v")) {    //A vertices are parsed to a Vector3f.
                     m.getVertices().add(parseVector3f(line));
-                } else if (prefix.equals("vt")) {
+                } else if (prefix.equals("vt")) {   //Texture vertices are at the time ignored, should be at a later time supported.
 
-                } else if (prefix.equals("vn")) {
+                } else if (prefix.equals("vn")) {   //Normal vertices are parsed to a Vector3f.
                     m.getNormals().add(parseVector3f(line));
-                } else if (prefix.equals("usemtl")) {
+                } else if (prefix.equals("usemtl")) {   //Materials are not supported and be ignored.
                     //Not supported
-                } else if (prefix.equals("f")) {
+                } else if (prefix.equals("f")) {    //Faces are parsed to a Face object that contain the indices of the vertices, normal vertices and texture vertices.
                     m.getFaces().add(parseFace(m.hasNormals(), line));
                 } else {
-                    throw new WaveFrontParseException("OBJ file contains a line which couldn't be parsed correctly: " + line);
+                    throw new WaveFrontParseException("OBJ file contains a line which couldn't be parsed correctly: " + line);  //Throw a WaveFrontParseException if there is a line that is not supported.
                 }
             }
         } catch (IOException e) {
