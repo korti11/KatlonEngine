@@ -2,7 +2,6 @@ package at.korti.katlonengine.client.model;
 
 import at.korti.katlonengine.util.helper.BufferHelper;
 import at.korti.katlonengine.util.vector.Vector3f;
-import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -19,12 +18,12 @@ public class VAOModel {
 
     public static final int vertexAttribute = 0;
     public static final int normalAttribute = 1;
-
+    public static final int textureAttribute = 2;
+    private final int vaoID;
+    protected Model model;
     private int vboVertexHandler;
     private int vboNormalHandler;
     private int vboIndicesHandler;
-    private final int vaoID;
-    private Model model;
 
     public VAOModel(Model model) {
         this.model = model;
@@ -32,7 +31,7 @@ public class VAOModel {
         setupModel();
     }
 
-    private void setupModel() {
+    protected void setupModel() {
         bindVAO();
         //Create the vbo handlers
         vboVertexHandler = glGenBuffers();
@@ -40,26 +39,28 @@ public class VAOModel {
         vboIndicesHandler = glGenBuffers();
 
         int[] indices = new int[model.getFaces().size() * 3];
+        float[] vertices = new float[model.getVertices().size() * 3];
+        float[] normals = new float[model.getVertices().size() * 3];
+
         int count = 0;
         for (Face face : model.getFaces()) {
-            indices[count++] = face.getVertexIndices()[0];
-            indices[count++] = face.getVertexIndices()[1];
-            indices[count++] = face.getVertexIndices()[2];
+            for (int i = 0; i < 3; i++) {
+                int vertexPointer = face.getVertexIndices()[i];
+                indices[count] = vertexPointer;
+                int normalPointer = face.getNormalIndices()[i];
+                Vector3f normalVector = model.getNormals().get(normalPointer);
+                normals[vertexPointer * 3] = normalVector.x;
+                normals[vertexPointer * 3 + 1] = normalVector.y;
+                normals[vertexPointer * 3 + 2] = normalVector.z;
+                count++;
+            }
         }
         count = 0;
 
-        float[] vertices = new float[model.getVertices().size() * 3];
-        float[] normals = new float[model.getNormals().size() * 3];
         for (Vector3f vector : model.getVertices()) {
             vertices[count++] = vector.x;
             vertices[count++] = vector.y;
             vertices[count++] = vector.z;
-        }
-        count = 0;
-        for (Vector3f vector : model.getNormals()) {
-            normals[count++] = vector.x;
-            normals[count++] = vector.y;
-            normals[count++] = vector.z;
         }
 
         IntBuffer indicesBuffer = BufferHelper.store(indices);

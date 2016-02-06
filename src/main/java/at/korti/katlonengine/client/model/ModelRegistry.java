@@ -1,7 +1,11 @@
 package at.korti.katlonengine.client.model;
 
+import at.korti.katlonengine.KatlonEngine;
 import at.korti.katlonengine.client.model.parser.WavefrontParser;
+import at.korti.katlonengine.util.helper.ResourceHelper;
+import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +14,7 @@ import java.util.Map;
  */
 public class ModelRegistry {
 
+    private static final Logger logger = KatlonEngine.logger;
     private static ModelRegistry instance;
 
     private Map<String, Model> registry;
@@ -46,6 +51,28 @@ public class ModelRegistry {
         if(!isKeyInUse(id)) {
             WavefrontParser parser = new WavefrontParser(pathToObjFile);
             addModel(id, parser.parse());
+        }
+    }
+
+    /**
+     * Parse a textured model of the .obj file, load the texture file for the model
+     * and register it for the id.
+     *
+     * @param id                ID for the model
+     * @param pathToObjFile     Path in the resource folder to the .obj file
+     * @param pathToTextureFile Path in the resource folder to the .png file
+     */
+    public static void addTexturedModelForWaveFrontFile(String id, String pathToObjFile, String pathToTextureFile) {
+        if (!isKeyInUse(id)) {
+            WavefrontParser parser = new WavefrontParser(pathToObjFile);
+            TexturedModel model = parser.parseTexturedModel();
+            try {
+                model.setTexture(ResourceHelper.getTexture(pathToTextureFile));
+            } catch (IOException e) {
+                logger.error("Couldn't find texture: " + pathToTextureFile, e);
+                return;
+            }
+            instance().registry.put(id, model);
         }
     }
 

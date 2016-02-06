@@ -7,6 +7,7 @@ public class Face {
 
     private final int[] vertexIndices = {-1, -1, -1};
     private final int[] normalIndices = {-1, -1, -1};
+    private final int[] textureIndices = {-1, -1, -1};
 
     public Face(int[] vertexIndices) {
         this.vertexIndices[0] = vertexIndices[0];
@@ -21,6 +22,13 @@ public class Face {
         this.normalIndices[2] = normalIndices[2];
     }
 
+    public Face(int[] vertexIndices, int[] normalIndices, int[] textureIndices) {
+        this(vertexIndices, normalIndices);
+        this.textureIndices[0] = textureIndices[0];
+        this.textureIndices[1] = textureIndices[1];
+        this.textureIndices[2] = textureIndices[2];
+    }
+
     public int[] getVertexIndices() {
         return vertexIndices;
     }
@@ -29,4 +37,7 @@ public class Face {
         return normalIndices;
     }
 
+    public int[] getTextureIndices() {
+        return textureIndices;
+    }
 }

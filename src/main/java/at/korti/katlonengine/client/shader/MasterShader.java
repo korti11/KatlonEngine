@@ -26,6 +26,7 @@ public class MasterShader extends Shader {
     protected void bindAttributes() {
         bindAttribute(VAOModel.vertexAttribute, "position");
         bindAttribute(VAOModel.normalAttribute, "normals");
+        bindAttribute(VAOModel.textureAttribute, "textureCoords");
     }
 
     @Override

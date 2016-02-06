@@ -1,7 +1,10 @@
 package at.korti.katlonengine.client.render;
 
 import at.korti.katlonengine.client.display.Camera;
+import at.korti.katlonengine.client.model.TexturedModel;
+import at.korti.katlonengine.client.model.TexturedVAOModel;
 import at.korti.katlonengine.client.model.VAOModel;
+import at.korti.katlonengine.client.resources.Icon;
 import at.korti.katlonengine.client.shader.MasterShader;
 import at.korti.katlonengine.components.Light;
 import at.korti.katlonengine.util.helper.MatrixHelper;
@@ -20,12 +23,11 @@ import static org.lwjgl.opengl.GL11.*;
 public class MasterRenderer {
 
     private static MasterRenderer instance;
-
+    public Camera camera;
+    public Light light;
     private List<VAOModel> models;
     private MasterShader shader;
     private Matrix4f projectionMatrix;
-    public Camera camera;
-    public Light light;
 
     private MasterRenderer() {
         models = new LinkedList<>();
@@ -47,7 +49,7 @@ public class MasterRenderer {
         glCullFace(GL_BACK);
         shader = new MasterShader();
         camera = new Camera();
-        light = new Light(new Vector3f(-10, 0, -20), new Vector3f(1, 1, 1));
+        light = new Light(new Vector3f(-10, 0, 20), new Vector3f(1, 1, 1));
         projectionMatrix = MatrixHelper.projectionMatrix();
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
@@ -69,7 +71,16 @@ public class MasterRenderer {
             model.enableVertexAttribArray();
             shader.loadTransformationMatrix(MatrixHelper.createTransformationMatrix(new Vector3f(-1f, 0f, -5f), 0, 245, 0, .25f));
             shader.loadViewMatrix(MatrixHelper.createViewMatrix(camera));
+            if (model instanceof TexturedVAOModel) {
+                TexturedModel texturedModel = (TexturedModel) model.getModel();
+                Icon texture = texturedModel.getTexture();
+                texture.enable();
+//                glActiveTexture(GL_TEXTURE0);
+//                glBindTexture(GL_TEXTURE_2D, texturedModel.getTexture().getTextureID());
+                texture.loadTexture();
+            }
             glDrawElements(GL_TRIANGLES, model.getModel().getFaces().size() * 3, GL_UNSIGNED_INT, 0);
+            glDisable(GL_TEXTURE_2D);
             model.disableVertexAttribArray();
             model.unbindVAO();
             shader.stop();

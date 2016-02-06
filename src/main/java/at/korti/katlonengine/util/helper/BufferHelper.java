@@ -81,4 +81,23 @@ public class BufferHelper {
         buffer.flip();
         return buffer;
     }
+
+    /**
+     * Resize the given byte buffer to the new capacity.
+     *
+     * @param buffer      Source buffer
+     * @param newCapacity New capacity
+     * @return Resized buffer or the original buffer if the
+     * new capacity is smaller then the current capacity.
+     */
+    public static ByteBuffer resizeBuffer(ByteBuffer buffer, int newCapacity) {
+        if (newCapacity > buffer.capacity()) {
+            ByteBuffer newBuffer = BufferUtils.createByteBuffer(newCapacity);
+            buffer.flip();
+            newBuffer.put(buffer);
+            return newBuffer;
+        }
+
+        return buffer;
+    }
 }
