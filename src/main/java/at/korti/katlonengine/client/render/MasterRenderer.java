@@ -7,6 +7,7 @@ import at.korti.katlonengine.client.model.VAOModel;
 import at.korti.katlonengine.client.resources.Icon;
 import at.korti.katlonengine.client.shader.MasterShader;
 import at.korti.katlonengine.components.Light;
+import at.korti.katlonengine.entity.Entity;
 import at.korti.katlonengine.util.helper.MatrixHelper;
 import at.korti.katlonengine.util.helper.OpenGLHelper;
 import at.korti.katlonengine.util.matrix.Matrix4f;
@@ -25,12 +26,12 @@ public class MasterRenderer {
     private static MasterRenderer instance;
     public Camera camera;
     public Light light;
-    private List<VAOModel> models;
+    private List<Entity> entities;
     private MasterShader shader;
     private Matrix4f projectionMatrix;
 
     private MasterRenderer() {
-        models = new LinkedList<>();
+        entities = new LinkedList<>();
     }
 
     public static MasterRenderer instance() {
@@ -40,8 +41,8 @@ public class MasterRenderer {
         return instance;
     }
 
-    public static void addVBOModel(VAOModel model) {
-        instance().models.add(model);
+    public static void addEntity(Entity entity) {
+        instance().entities.add(entity);
     }
 
     public void init() {
@@ -65,11 +66,12 @@ public class MasterRenderer {
 
     public void renderAll() {
         prepare();
-        for (VAOModel model : models) {
+        for (Entity entity : entities) {
+            VAOModel model = new TexturedVAOModel((TexturedModel) entity.getModel());
             shader.start();
             model.bindVAO();
             model.enableVertexAttribArray();
-            shader.loadTransformationMatrix(MatrixHelper.createTransformationMatrix(new Vector3f(-1f, 0f, -5f), 0, 245, 0, .25f));
+            shader.loadTransformationMatrix(entity.getTransformation());
             shader.loadViewMatrix(MatrixHelper.createViewMatrix(camera));
             if (model instanceof TexturedVAOModel) {
                 TexturedModel texturedModel = (TexturedModel) model.getModel();
@@ -84,11 +86,11 @@ public class MasterRenderer {
             model.disableVertexAttribArray();
             model.unbindVAO();
             shader.stop();
+            model.cleanUp();
         }
     }
 
     public void cleanUp() {
-        models.forEach(VAOModel::cleanUp);
         shader.cleanUp();
     }
 
