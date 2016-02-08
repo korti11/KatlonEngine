@@ -1,6 +1,7 @@
 package at.korti.katlonengine.client.render;
 
 import at.korti.katlonengine.client.display.Camera;
+import at.korti.katlonengine.client.model.Model;
 import at.korti.katlonengine.client.model.TexturedModel;
 import at.korti.katlonengine.client.model.TexturedVAOModel;
 import at.korti.katlonengine.client.model.VAOModel;
@@ -8,13 +9,16 @@ import at.korti.katlonengine.client.resources.Icon;
 import at.korti.katlonengine.client.shader.MasterShader;
 import at.korti.katlonengine.components.Light;
 import at.korti.katlonengine.entity.Entity;
+import at.korti.katlonengine.util.GroupingList;
 import at.korti.katlonengine.util.helper.MatrixHelper;
 import at.korti.katlonengine.util.helper.OpenGLHelper;
 import at.korti.katlonengine.util.matrix.Matrix4f;
 import at.korti.katlonengine.util.vector.Vector3f;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -27,11 +31,17 @@ public class MasterRenderer {
     public Camera camera;
     public Light light;
     private List<Entity> entities;
+    private List<GroupingList<Model, Entity>> groupedEntites;
+    private Map<Model, VAOModel> vaoModels;
+    private boolean entitiesChange;
     private MasterShader shader;
     private Matrix4f projectionMatrix;
 
     private MasterRenderer() {
         entities = new LinkedList<>();
+        groupedEntites = new LinkedList<>();
+        vaoModels = new HashMap<>();
+        entitiesChange = true;
     }
 
     public static MasterRenderer instance() {
@@ -43,6 +53,7 @@ public class MasterRenderer {
 
     public static void addEntity(Entity entity) {
         instance().entities.add(entity);
+        instance().entitiesChange = true;
     }
 
     public void init() {
@@ -58,40 +69,87 @@ public class MasterRenderer {
         shader.stop();
     }
 
-    public void prepare() {
+    private void prepare() {
         glEnable(GL_DEPTH_TEST);
         OpenGLHelper.clearFramebuffer();
         OpenGLHelper.clearColor();
+
+        groupEntites();
+    }
+
+    private void groupEntites() {
+        if (entitiesChange) {
+            groupedEntites.clear();
+            for (Entity entity : entities) {
+                if (hasGrouped(entity.model)) {
+                    continue;
+                }
+                groupedEntites.add(GroupingList.groupBy(entity.getModel(), entities, m -> m.getModel()));
+            }
+            createVAOModels();
+            entitiesChange = false;
+        }
+    }
+
+    private boolean hasGrouped(Model model) {
+        for (GroupingList grouping : groupedEntites) {
+            if (grouping.getKey().equals(model)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void createVAOModels() {
+        for (GroupingList<Model, Entity> groupedList : groupedEntites) {
+            Model model = groupedList.getKey();
+            if (!hasVAOCreated(model)) {
+                if (model instanceof TexturedModel) {
+                    vaoModels.put(model, new TexturedVAOModel((TexturedModel) model));
+                } else {
+                    vaoModels.put(model, new VAOModel(model));
+                }
+            }
+        }
+    }
+
+    private boolean hasVAOCreated(Model model) {
+        for (Map.Entry<Model, VAOModel> entry : vaoModels.entrySet()) {
+            if (entry.getValue().getModel().equals(model)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void renderAll() {
         prepare();
-        for (Entity entity : entities) {
-            VAOModel model = new TexturedVAOModel((TexturedModel) entity.getModel());
+        for (GroupingList<Model, Entity> groupedList : groupedEntites) {
+            VAOModel model = vaoModels.get(groupedList.getKey());
             shader.start();
             model.bindVAO();
             model.enableVertexAttribArray();
-            shader.loadTransformationMatrix(entity.getTransformation());
             shader.loadViewMatrix(MatrixHelper.createViewMatrix(camera));
             if (model instanceof TexturedVAOModel) {
                 TexturedModel texturedModel = (TexturedModel) model.getModel();
                 Icon texture = texturedModel.getTexture();
                 texture.enable();
-//                glActiveTexture(GL_TEXTURE0);
-//                glBindTexture(GL_TEXTURE_2D, texturedModel.getTexture().getTextureID());
                 texture.loadTexture();
             }
-            glDrawElements(GL_TRIANGLES, model.getModel().getFaces().size() * 3, GL_UNSIGNED_INT, 0);
+            for (Entity entity : groupedList.getValues()) {
+                shader.loadTransformationMatrix(entity.getTransformation());
+                glDrawElements(GL_TRIANGLES, model.getModel().getFaces().size() * 3, GL_UNSIGNED_INT, 0);
+            }
             glDisable(GL_TEXTURE_2D);
             model.disableVertexAttribArray();
             model.unbindVAO();
             shader.stop();
-            model.cleanUp();
         }
     }
 
     public void cleanUp() {
         shader.cleanUp();
+        vaoModels.forEach((model, vaoModel) -> vaoModel.cleanUp());
     }
 
 }

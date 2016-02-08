@@ -7,7 +7,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 /**
  * Created by Korti on 29.12.2015.
  */
-public class EngineSettings {
+public final class EngineSettings {
 
     //LWJGL
     public static final String lwjglVersion = Version.getVersion();     //The used LWJGL version.

@@ -16,7 +16,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 /**
  * Created by Korti on 29.12.2015.
  */
-public class DisplayManager {
+public final class DisplayManager {
 
     private static DisplayManager instance;
 
