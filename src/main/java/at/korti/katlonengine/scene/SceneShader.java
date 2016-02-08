@@ -1,16 +1,17 @@
-package at.korti.katlonengine.client.shader;
+package at.korti.katlonengine.scene;
 
 import at.korti.katlonengine.client.model.VAOModel;
+import at.korti.katlonengine.client.shader.Shader;
 import at.korti.katlonengine.components.Light;
 import at.korti.katlonengine.util.matrix.Matrix4f;
 
 /**
- * Created by Korti on 10.01.2016.
+ * Created by Korti on 08.02.2016.
  */
-public class MasterShader extends Shader {
+public class SceneShader extends Shader {
 
-    private static final String VERTEX_FILE = "shader/masterShader.vs.glsl";
-    private static final String FRAGMENT_FILE = "shader/masterShader.fs.glsl";
+    private static final String VERTEX_FILE = "shader/sceneShader.vs.glsl";
+    private static final String FRAGMENT_FILE = "shader/sceneShader.fs.glsl";
 
     private int transformationMatrix;
     private int projectionMatrix;
@@ -18,7 +19,7 @@ public class MasterShader extends Shader {
     private int lightPosition;
     private int lightColor;
 
-    public MasterShader() {
+    public SceneShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
     }
 

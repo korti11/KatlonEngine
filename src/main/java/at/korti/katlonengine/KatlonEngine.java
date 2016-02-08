@@ -1,8 +1,8 @@
 package at.korti.katlonengine;
 
 import at.korti.katlonengine.client.display.DisplayManager;
-import at.korti.katlonengine.client.render.MasterRenderer;
 import at.korti.katlonengine.event.handler.EventBus;
+import at.korti.katlonengine.scene.SceneManager;
 import at.korti.katlonengine.util.helper.OpenGLHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,16 +12,13 @@ import org.apache.logging.log4j.Logger;
  */
 public final class KatlonEngine {
 
-    private static KatlonEngine instance;
     public static EventBus EVENT_BUS = new EventBus();
     public static Logger logger = LogManager.getLogger("Katlon");
-
+    private static KatlonEngine instance;
     public DisplayManager displayManager;
-    public MasterRenderer masterRenderer;
 
     private KatlonEngine(){
         displayManager = DisplayManager.instance();
-        masterRenderer = MasterRenderer.instance();
     }
 
     public static KatlonEngine instance() {
@@ -37,13 +34,20 @@ public final class KatlonEngine {
         logger.info("Katlon Engine is initialized!");
     }
 
+    public void update() {
+        displayManager.swapColorBuffers();
+        displayManager.pollEvents();
+        SceneManager.updateCurrentScene();
+    }
+
     public void render() {
-        masterRenderer.renderAll();
+        OpenGLHelper.clearFramebuffer();
+        SceneManager.renderCurrentScene();
     }
 
     public void close(){
         displayManager.close();
-        masterRenderer.cleanUp();
+        SceneManager.unloadCurrentScene();
         logger.info("Katlon Engine has been closed!");
     }
 

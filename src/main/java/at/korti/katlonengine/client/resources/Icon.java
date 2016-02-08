@@ -41,6 +41,14 @@ public final class Icon {
         this.textureID = glGenTextures();
     }
 
+    public static void enableTexture2D() {
+        glEnable(GL_TEXTURE_2D);
+    }
+
+    public static void disableTexture2D() {
+        glDisable(GL_TEXTURE_2D);
+    }
+
     public int getWidth() {
         return width;
     }
@@ -71,13 +79,5 @@ public final class Icon {
         }
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    }
-
-    public void enable() {
-        glEnable(GL_TEXTURE_2D);
-    }
-
-    public void disable() {
-        glDisable(GL_TEXTURE_2D);
     }
 }
