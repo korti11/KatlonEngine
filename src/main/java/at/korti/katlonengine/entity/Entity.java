@@ -2,9 +2,13 @@ package at.korti.katlonengine.entity;
 
 import at.korti.katlonengine.client.model.Model;
 import at.korti.katlonengine.client.model.ModelRegistry;
+import at.korti.katlonengine.components.IComponent;
 import at.korti.katlonengine.util.helper.MatrixHelper;
 import at.korti.katlonengine.util.matrix.Matrix4f;
 import at.korti.katlonengine.util.vector.Vector3f;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Korti on 07.02.2016.
@@ -27,6 +31,11 @@ public class Entity {
      * The model that is shown in the world
      */
     public Model model;
+    public List<IComponent> components;
+
+    private Entity() {
+        components = new LinkedList<>();
+    }
 
     /**
      * Constructor.
@@ -37,6 +46,7 @@ public class Entity {
      * @param scale    The scale of the entity
      */
     public Entity(Model model, Vector3f position, Vector3f rotation, float scale) {
+        this();
         this.model = model;
         this.position = position;
         this.rotation = rotation;
@@ -56,6 +66,7 @@ public class Entity {
      * @param scale The scale of the entity
      */
     public Entity(Model model, float x, float y, float z, float rx, float ry, float rz, float scale) {
+        this();
         this.model = model;
         this.position = new Vector3f(x, y, z);
         this.rotation = new Vector3f(rx, ry, rz);
@@ -71,6 +82,7 @@ public class Entity {
      * @param scale    The scale of the entity
      */
     public Entity(String modelId, Vector3f position, Vector3f rotation, float scale) {
+        this();
         this.model = ModelRegistry.getModel(modelId);
         this.position = position;
         this.rotation = rotation;
@@ -90,6 +102,7 @@ public class Entity {
      * @param scale   The scale of the entity
      */
     public Entity(String modelId, float x, float y, float z, float rx, float ry, float rz, float scale) {
+        this();
         this.model = ModelRegistry.getModel(modelId);
         this.position = new Vector3f(x, y, z);
         this.rotation = new Vector3f(rx, ry, rz);
@@ -130,9 +143,15 @@ public class Entity {
     }
     //endregion
 
+    public void addComponent(IComponent component) {
+        this.components.add(component);
+    }
+
+    public void update() {
+        components.forEach(component -> component.update(this));
+    }
+
     public Matrix4f getTransformation() {
         return MatrixHelper.createTransformationMatrix(position, rotation.x, rotation.y, rotation.z, scale);
     }
-
-
 }

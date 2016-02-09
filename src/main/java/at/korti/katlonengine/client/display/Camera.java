@@ -26,6 +26,7 @@ public class Camera {
      * @param event The KeyInputEvent with the pressed key, the action of the key (Press, Pressed or Release),
      *              the window where the key was pressed, the scancode and the mod.
      */
+    //Todo: Only move when the camera is in the current scene
     @SubscribeEvent
     public void move(KeyInputEvent event) {
         if(event.getAction() != GLFW_RELEASE) {

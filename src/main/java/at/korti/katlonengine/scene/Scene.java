@@ -106,6 +106,8 @@ public class Scene extends AbstractScene {
             createVAOModels();
             entitiesChanged = false;
         }
+
+        entities.forEach(Entity::update);
     }
 
     @Override
