@@ -1,5 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'maven-publish'
 
 ext.configFile = file 'build.properties'
 
@@ -25,48 +24,4 @@ dependencies {
     compile group: "org.apache.logging.log4j", name: "log4j-core", version: "2.1"
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId project.group
-            artifactId project.name
-            version project.version
-
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            boolean isSnapshot = version.endsWith("-Alpha") || version.endsWith("-Beta");
-            def creds = isSnapshot ? getCredentials("archiva.snapshots") : getCredentials("archiva.internal")
-            credentials{
-                username creds["username"]
-                password creds["password"]
-            }
-            if(isSnapshot) {
-                url "http://192.168.56.20:8082/repository/snapshots"
-            } else {
-                url "http://192.168.56.20:8082/repository/internal"
-            }
-        }
-    }
-}
-
-def getMavenSettingsCredentials() {
-    String mavenHome = System.getenv("M2_HOME")
-    System.out.println(mavenHome)
-    File mavenSettings = new File(mavenHome, "conf/settings.xml")
-    def output = new XmlSlurper().parse(mavenSettings)
-    return output.servers.server
-}
-
-def getCredentials(String id) {
-    def entries = getMavenSettingsCredentials();
-    for(entry in entries) {
-        if (entry.id.text() == id) {
-            return [username: entry.username.text(), password: entry.password.text()]
-        }
-    }
 }

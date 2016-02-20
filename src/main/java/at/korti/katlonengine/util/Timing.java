@@ -26,10 +26,10 @@ public final class Timing {
      *
      * @return Time between the frames
      */
-    public static long getDeltaTime() {
+    public static float getDeltaTime() {
         long oldTime = instance().oldTime;
         long newTime = instance().getTime();
-        long deltaTime = newTime - oldTime;
+        float deltaTime = (float) (newTime - oldTime) / 1000f;
         instance().oldTime = newTime;
         return deltaTime;
     }

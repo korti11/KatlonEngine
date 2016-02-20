@@ -3,6 +3,7 @@ package at.korti.katlonengine;
 import at.korti.katlonengine.client.display.DisplayManager;
 import at.korti.katlonengine.event.handler.EventBus;
 import at.korti.katlonengine.scene.SceneManager;
+import at.korti.katlonengine.util.Timing;
 import at.korti.katlonengine.util.helper.OpenGLHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +15,7 @@ public final class KatlonEngine {
 
     public static EventBus EVENT_BUS = new EventBus();
     public static Logger logger = LogManager.getLogger("Katlon");
+    public static float deltaTime;
     private static KatlonEngine instance;
     public DisplayManager displayManager;
 
@@ -31,10 +33,12 @@ public final class KatlonEngine {
     public void init(){
         displayManager.init();
         OpenGLHelper.initOpenGL();
+        Timing.instance();
         logger.info("Katlon Engine is initialized!");
     }
 
     public void update() {
+        deltaTime = Timing.getDeltaTime();
         displayManager.swapColorBuffers();
         displayManager.pollEvents();
         SceneManager.updateCurrentScene();

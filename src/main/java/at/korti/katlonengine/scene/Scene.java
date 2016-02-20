@@ -60,6 +60,7 @@ public class Scene extends AbstractScene {
         getShader().loadLight(light);
         getShader().loadProjectionMatrix(MatrixHelper.projectionMatrix());
         shader.stop();
+        entities.forEach(Entity::init);
     }
 
     @Override

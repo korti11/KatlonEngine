@@ -7,6 +7,8 @@ import at.korti.katlonengine.entity.Entity;
  */
 public interface IComponent {
 
-    void update(Entity entity);
+    void init(Entity entity);
+
+    void update();
 
 }

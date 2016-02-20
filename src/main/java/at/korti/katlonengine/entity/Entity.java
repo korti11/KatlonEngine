@@ -24,6 +24,10 @@ public class Entity {
      */
     public Vector3f rotation;
     /**
+     * Velocity of the entity
+     */
+    public Vector3f velocity;
+    /**
      * The scale of the entity
      */
     public float scale;
@@ -35,6 +39,8 @@ public class Entity {
 
     private Entity() {
         components = new LinkedList<>();
+        velocity = new Vector3f();
+
     }
 
     /**
@@ -147,8 +153,15 @@ public class Entity {
         this.components.add(component);
     }
 
+    public void init() {
+        components.forEach(component -> component.init(this));
+    }
+
     public void update() {
-        components.forEach(component -> component.update(this));
+        components.forEach(component -> component.update());
+
+        Vector3f.sub(position, velocity, position);
+        velocity.set(0, 0, 0);
     }
 
     public Matrix4f getTransformation() {
